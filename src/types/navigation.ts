@@ -1,1 +1,7 @@
-export type PageIndex = 0 | 1
+export type PageIndex =
+  | "INTRO"
+  | "CAESAR_CONCEPT"
+  | "CAESAR_WORKING"
+  | "CAESAR_STRUCTURE"
+  | "CAESAR_EXAMPLE"
+  | "CAESAR_APPLICATION";
