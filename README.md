@@ -1,21 +1,122 @@
-# React + TypeScript + Vite
+# AlgoCrypt - Cryptography Algorithm Visualization
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern web application for visualizing and experimenting with various cryptography algorithms including DES, AES-128, Caesar, Playfair, Vigenere, Rail Fence, and Monoalphabetic ciphers.
 
-Currently, two official plugins are available:
+## Live Demo
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+The application is automatically deployed to GitHub Pages. Visit: [AlgoCrypt Dashboard](https://hotung9108.github.io/AlgoCrypt/)
 
-## React Compiler
+## Features
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+- **DES Encryption**: 64-bit block cipher with 56-bit key and 16 rounds
+- **AES-128 Encryption**: 128-bit block cipher with 128-bit key and 10 rounds
+- **Caesar Cipher**: Simple substitution cipher with adjustable shift
+- **Playfair Cipher**: Digraph substitution cipher
+- **Vigenere Cipher**: Polyalphabetic substitution cipher
+- **Vigenere Autokey Cipher**: Enhanced Vigenere with autokey mechanism
+- **Rail Fence Cipher**: Transposition cipher for rail fence method
+- **Monoalphabetic Cipher**: General-purpose substitution cipher
 
-Note: This will impact Vite dev & build performances.
+## Technology Stack
 
-## Expanding the ESLint configuration
+- **Frontend**: React with TypeScript
+- **Styling**: Tailwind CSS
+- **Build Tool**: Vite
+- **Deployment**: GitHub Pages with GitHub Actions
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Local Development
+
+### Prerequisites
+- Node.js 18+
+- npm or yarn
+
+### Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/hotung9108/AlgoCrypt.git
+cd AlgoCrypt
+
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+```
+
+The application will be available at `http://localhost:5173`
+
+### Building for Production
+
+```bash
+npm run build
+```
+
+The built files will be in the `dist/` directory.
+
+## Deployment
+
+This project is automatically deployed to GitHub Pages using GitHub Actions.
+
+### Setup (Already Configured)
+
+The repository includes a GitHub Actions workflow (`.github/workflows/deploy.yml`) that:
+
+1. Triggers on every push to the `main` branch
+2. Installs dependencies
+3. Builds the project
+4. Deploys to GitHub Pages
+
+### Enable GitHub Pages
+
+1. Go to your GitHub repository: https://github.com/hotung9108/AlgoCrypt
+2. Navigate to **Settings** → **Pages**
+3. Under "Build and deployment":
+   - Select **Source**: "Deploy from a branch"
+   - Select **Branch**: "gh-pages" (created automatically by the workflow)
+   - Select **Folder**: "/ (root)"
+4. Click **Save**
+
+### Access the Deployed App
+
+After enabling GitHub Pages, your app will be available at:
+```
+https://hotung9108.github.io/AlgoCrypt/
+```
+
+## Project Structure
+
+```
+├── .github/workflows/      # GitHub Actions CI/CD configuration
+├── src/
+│   ├── algorithms/         # Cryptography algorithm implementations
+│   ├── pages/              # Page components for each cipher
+│   ├── components/         # Reusable UI components
+│   ├── App.tsx             # Main application component
+│   └── index.css           # Global styles
+├── public/                 # Static assets
+├── vite.config.ts          # Vite configuration
+└── package.json            # Project dependencies
+```
+
+## Available Scripts
+
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run preview` - Preview production build locally
+- `npm run lint` - Run ESLint
+
+## Contributing
+
+Feel free to submit issues and enhancement requests!
+
+## License
+
+MIT
+
+---
+
+**Note**: For questions about the deployment process or to troubleshoot, please refer to the GitHub Actions logs in the **Actions** tab of your repository.
 
 ```js
 export default defineConfig([
