@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate, Navigate } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, useLocation, useNavigate, Navigate } from 'react-router-dom';
 import Sidebar from './components/Sidebar';
 import CaesarPage from './pages/CaesarPage';
 import RailFencePage from './pages/RailFencePage';
@@ -107,7 +107,7 @@ const App: React.FC = () => {
 };
 
 const AppWrapper: React.FC = () => (
-  <Router basename={import.meta.env.DEV ? '/' : '/AlgoCrypt/'}>
+  <Router>
     <App />
   </Router>
 );
