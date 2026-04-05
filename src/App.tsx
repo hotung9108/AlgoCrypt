@@ -107,7 +107,7 @@ const App: React.FC = () => {
 };
 
 const AppWrapper: React.FC = () => (
-  <Router>
+  <Router basename={import.meta.env.DEV ? '/' : '/AlgoCrypt/'}>
     <App />
   </Router>
 );
