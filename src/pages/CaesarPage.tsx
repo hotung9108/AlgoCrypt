@@ -8,7 +8,7 @@ const CaesarPage: React.FC = () => {
     const [outputText, setOutputText] = useState("");
     const [isEncrypt, setIsEncrypt] = useState(true);
     const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
-    const shiftedAlphabet = alphabet.map((letter, index) => {
+    const shiftedAlphabet = alphabet.map((_letter, index) => {
         const shiftedIndex = (index + shift) % 26;
         return alphabet[shiftedIndex];
     });
