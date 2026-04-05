@@ -47,6 +47,30 @@ export function playfairEncrypt(plaintext: string, keyword: string): string {
   return ciphertext;
 }
 
+export function playfairDecrypt(ciphertext: string, keyword: string): string {
+  const matrix = generatePlayfairMatrix(keyword);
+  const digraphs = preprocessPlaintext(ciphertext);
+  let plaintext = "";
+
+  for (const [char1, char2] of digraphs) {
+    const [row1, col1] = findPosition(matrix, char1);
+    const [row2, col2] = findPosition(matrix, char2);
+
+    if (row1 === row2) {
+      plaintext += matrix[row1][(col1 + 4) % 5];
+      plaintext += matrix[row2][(col2 + 4) % 5];
+    } else if (col1 === col2) {
+      plaintext += matrix[(row1 + 4) % 5][col1];
+      plaintext += matrix[(row2 + 4) % 5][col2];
+    } else {
+      plaintext += matrix[row1][col2];
+      plaintext += matrix[row2][col1];
+    }
+  }
+
+  return plaintext;
+}
+
 function preprocessPlaintext(plaintext: string): string[][] {
   plaintext = plaintext.toUpperCase().replace(/J/g, "I").replace(/[^A-Z]/g, "");
   const digraphs: string[][] = [];

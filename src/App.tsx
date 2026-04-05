@@ -1,59 +1,115 @@
-import { useState } from "react"
-import {
-    SidebarInset,
-    SidebarProvider,
-    SidebarTrigger,
-} from "@/components/ui/sidebar"
-import { AppSidebar } from "@/components/app-sidebar"
-import { ModeToggle } from "./components/mode-toggle";
-import Intro from "./pages/Intro/Intro";
-import { ThemeProvider} from "./components/theme-provider";
-import Application from "./pages/Caesar/caesar-application";
-import Concept from "./pages/Caesar/caesar-concept";
-import Example from "./pages/Caesar/caesar-example";
-import Operating from "./pages/Caesar/caesar-operating";
-import Structure from "./pages/Caesar/caesar-structure";
-import WIP from "./pages/Intro/WIP";
-import PlayfairExample from "./pages/PlayFair/playfair-example";
-import VigenereExample from "./pages/Vigenere/vigenere-example";
-export default function App() {
-    const [currentPage, setCurrentPage] = useState("INTRO")
-        const renderPage = () => {
-        switch (currentPage) {
-            case "INTRO":
-                return <Intro />
-            case "CAESAR_CONCEPT":
-                return <Concept />
-            case "CAESAR_WORKING":
-                return <Operating />
-            case "CAESAR_STRUCTURE":
-                return <Structure />
-            case "CAESAR_EXAMPLE":
-                return <Example />
-            case "CAESAR_APPLICATION":
-                return <Application />
-            case "PLAYFAIR_EXAMPLE":
-                return <PlayfairExample/>
-            case "VIGENERE_EXAMPLE":
-                return <VigenereExample/>
-            default:
-                return <WIP/>
-        }
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate, Navigate } from 'react-router-dom';
+import Sidebar from './components/Sidebar';
+import CaesarPage from './pages/CaesarPage';
+import RailFencePage from './pages/RailFencePage';
+import PlayfairPage from './pages/PlayfairPage';
+import VigenerePage from './pages/VigenerePage';
+import MonoalphabeticPage from './pages/MonoalphabeticPage';
+import VigenereAutokeyPage from './pages/VigenereAutokeyPage';
+import DESPage from './pages/DESPage';
+import AESPage from './pages/AESPage';
+import { CipherType } from './types';
+
+const App: React.FC = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [activeCipher, setActiveCipher] = useState<CipherType>(CipherType.CAESAR);
+
+  useEffect(() => {
+    switch (location.pathname) {
+      case '/caesar':
+        setActiveCipher(CipherType.CAESAR);
+        break;
+      case '/rail-fence':
+        setActiveCipher(CipherType.RAIL_FENCE);
+        break;
+      case '/playfair':
+        setActiveCipher(CipherType.PLAYFAIR);
+        break;
+      case '/vigenere':
+        setActiveCipher(CipherType.VIGENERE);
+        break;
+      case '/vigenere-repeat-key':
+        setActiveCipher(CipherType.VIGENERE_REPEAT_KEY);
+        break;
+      case '/vigenere-autokey':
+        setActiveCipher(CipherType.VIGENERE_AUTOKEY);
+        break;
+      case '/monoalphabetic':
+        setActiveCipher(CipherType.MONOALPHABETIC);
+        break;
+      case '/des':
+        setActiveCipher(CipherType.DES);
+        break;
+      case '/aes':
+        setActiveCipher(CipherType.AES);
+        break;
+      default:
+        setActiveCipher(CipherType.CAESAR);
     }
-    return (
-        <ThemeProvider>
-            <SidebarProvider>
-                <AppSidebar setCurrentPage={setCurrentPage} currentPage={""} />
-                <SidebarInset>
-                    <header className="bg-background sticky top-0 flex h-16 shrink-0 items-center gap-2 border-b px-4">
-                        <SidebarTrigger className="-ml-1" />
-                        <div className="flex items-center gap-4 ml-auto">
-                            <ModeToggle />
-                        </div>
-                    </header>
-                    <main className="p-4">{renderPage()}</main>
-                </SidebarInset>
-            </SidebarProvider>
-        </ThemeProvider>
-    );
-}
+  }, [location.pathname]);
+
+  const handleSelect = (id: CipherType) => {
+    setActiveCipher(id);
+    switch (id) {
+      case CipherType.CAESAR:
+        navigate('/caesar');
+        break;
+      case CipherType.RAIL_FENCE:
+        navigate('/rail-fence');
+        break;
+      case CipherType.PLAYFAIR:
+        navigate('/playfair');
+        break;
+      case CipherType.VIGENERE:
+        navigate('/vigenere');
+        break;
+      case CipherType.VIGENERE_REPEAT_KEY:
+        navigate('/vigenere-repeat-key');
+        break;
+      case CipherType.VIGENERE_AUTOKEY:
+        navigate('/vigenere-autokey');
+        break;
+      case CipherType.MONOALPHABETIC:
+        navigate('/monoalphabetic');
+        break;
+      case CipherType.DES:
+        navigate('/des');
+        break;
+      case CipherType.AES:
+        navigate('/aes');
+        break;
+      default:
+        navigate('/caesar');
+    }
+  };
+
+  return (
+    <div className="flex h-screen">
+      <Sidebar active={activeCipher} onSelect={handleSelect} />
+      <main className="flex-1 overflow-y-auto">
+        <Routes>
+          <Route path="/" element={<Navigate to="/caesar" replace />} />
+          <Route path="/caesar" element={<CaesarPage />} />
+          <Route path="/rail-fence" element={<RailFencePage />} />
+          <Route path="/playfair" element={<PlayfairPage />} />
+          <Route path="/vigenere" element={<VigenerePage />} />
+          <Route path="/vigenere-repeat-key" element={<VigenerePage />} />
+          <Route path="/vigenere-autokey" element={<VigenereAutokeyPage />} />
+          <Route path="/monoalphabetic" element={<MonoalphabeticPage />} />
+          <Route path="/des" element={<DESPage />} />
+          <Route path="/aes" element={<AESPage />} />
+        </Routes>
+      </main>
+    </div>
+  );
+};
+
+const AppWrapper: React.FC = () => (
+  <Router>
+    <App />
+  </Router>
+);
+
+export default AppWrapper;
