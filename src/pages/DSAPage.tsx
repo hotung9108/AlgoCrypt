@@ -34,10 +34,6 @@ const DSAPage: React.FC = () => {
 
   // Computation values for display
   const [hk, setHk] = useState(0);
-  const [w, setW] = useState(0);
-  const [u1, setU1] = useState(0);
-  const [u2, setU2] = useState(0);
-  const [v, setV] = useState(0);
 
   // Recalculate whenever inputs change
   useEffect(() => {
@@ -142,33 +138,6 @@ const DSAPage: React.FC = () => {
       // c) Verify signature
       const isValid = verifySignature(H_M, newR, newS, p, q, h, newYA);
       setVerificationResult(isValid);
-
-      // Intermediate values for verification
-      if (isValid) {
-        try {
-          // w = s^(-1) mod q (simplified calculation for display)
-          let w_val = 0;
-          for (let i = 1; i < q; i++) {
-            if ((newS * i) % q === 1) {
-              w_val = i;
-              break;
-            }
-          }
-          setW(w_val);
-
-          const newU1 = (H_M * w_val) % q;
-          const newU2 = (newR * w_val) % q;
-          setU1(newU1);
-          setU2(newU2);
-
-          const hu1 = modPow(h, newU1, p);
-          const yAu2 = modPow(newYA, newU2, p);
-          const newV = ((hu1 * yAu2) % p) % q;
-          setV(newV);
-        } catch (err) {
-          // Ignore verification computation errors for display
-        }
-      }
     } catch (err) {
       setYA(0);
       setR(0);

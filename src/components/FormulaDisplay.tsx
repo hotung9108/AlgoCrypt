@@ -7,9 +7,9 @@ import React from 'react';
  */
 const FormulaDisplay: React.FC<{ formula: string | React.ReactNode }> = ({ formula }) => {
   // Hàm để parse công thức và chuyển ^ thành superscript
-  const parseFormula = (text: string): (string | JSX.Element)[] => {
+  const parseFormula = (text: string): (string | React.ReactElement)[] => {
     // Regex để tìm pattern: base^exponent (có thể là chữ hoặc số)
-    const parts: (string | JSX.Element)[] = [];
+    const parts: (string | React.ReactElement)[] = [];
     let lastIndex = 0;
     const regex = /([a-zA-Z0-9]+)\^([a-zA-Z0-9\-]+)/g;
     let match;
