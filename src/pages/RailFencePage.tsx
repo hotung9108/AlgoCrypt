@@ -88,7 +88,7 @@ const RailFencePage: React.FC = () => {
                 </h3>
                 <div className="flex items-center justify-center bg-slate-950/30 rounded-2xl border border-slate-800/50 p-4 min-h-[300px]">
                   <div className="w-full flex flex-col items-center">
-                    <RailFenceVisualizer text={inputText} rails={rails} />
+                    <RailFenceVisualizer text={inputText} rails={rails} isEncrypt={isEncrypt} />
                     <div className="mt-4 px-4 py-2 bg-blue-500/10 border border-blue-500/20 rounded-full text-[10px] text-blue-300 font-bold uppercase tracking-widest">
                       Rail Fence Visualization
                     </div>

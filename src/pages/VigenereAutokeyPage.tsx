@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { vigenereEncrypt, vigenereDecrypt } from "@/algorithms/vingenereEncrypt";
+import VigenereAutokeyVisualizer from "@/components/VigenereAutokeyVisualizer";
 
 const VigenereAutokeyPage: React.FC = () => {
     const [key, setKey] = useState("KEY");
@@ -123,56 +124,15 @@ const VigenereAutokeyPage: React.FC = () => {
                                             d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
                                         />
                                     </svg>
-                                    Key Extension Visualization
+                                    Encryption Visualization
                                 </h3>
-                                <div className="flex items-center justify-center bg-slate-950/30 rounded-2xl border border-slate-800/50 p-4 min-h-[300px]">
-                                    <div className="w-full flex flex-col items-center space-y-6">
-                                        <div className="w-full">
-                                            <div className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3">Initial Key</div>
-                                            <div className="flex flex-wrap gap-2">
-                                                {key.split("").map((char, idx) => (
-                                                    <div
-                                                        key={`key-${idx}`}
-                                                        className="w-10 h-10 flex items-center justify-center bg-purple-600/30 border border-purple-500/50 rounded text-xs font-bold text-purple-300"
-                                                    >
-                                                        {char}
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        </div>
-
-                                        <div className="w-full">
-                                            <div className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3">Plaintext Added</div>
-                                            <div className="flex flex-wrap gap-2">
-                                                {inputText.slice(0, Math.max(0, inputText.length - key.length)).split("").map((char, idx) => (
-                                                    <div
-                                                        key={`plain-${idx}`}
-                                                        className="w-10 h-10 flex items-center justify-center bg-slate-700/50 border border-slate-600/50 rounded text-xs font-bold text-slate-300"
-                                                    >
-                                                        {char}
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        </div>
-
-                                        <div className="w-full pt-2 border-t border-slate-800">
-                                            <div className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3">Extended Key</div>
-                                            <div className="flex flex-wrap gap-2">
-                                                {(key + inputText.slice(0, inputText.length - key.length)).split("").map((char, idx) => (
-                                                    <div
-                                                        key={`extended-${idx}`}
-                                                        className="w-10 h-10 flex items-center justify-center bg-purple-500/40 border border-purple-400/60 rounded text-xs font-bold text-purple-200"
-                                                    >
-                                                        {char}
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        </div>
-
-                                        <div className="text-[10px] text-slate-400 font-semibold text-center mt-4">
-                                            Extended Key Length: {(key + inputText.slice(0, inputText.length - key.length)).length}
-                                        </div>
-                                    </div>
+                                <div className="overflow-y-auto max-h-[600px]">
+                                    <VigenereAutokeyVisualizer 
+                                        plaintext={inputText}
+                                        initialKey={key}
+                                        isEncrypt={isEncrypt}
+                                        output={outputText}
+                                    />
                                 </div>
                             </div>
 

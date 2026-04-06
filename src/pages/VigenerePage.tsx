@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { vigenereEncrypt, vigenereDecrypt } from "@/algorithms/vingenereEncrypt";
+import VigenereVisualizer from "@/components/VigenereVisualizer";
 
 const VigenerePage: React.FC = () => {
     const [key, setKey] = useState("KEY");
@@ -13,6 +14,11 @@ const VigenerePage: React.FC = () => {
             : vigenereDecrypt(inputText, key);
         setOutputText(result);
     };
+
+    // Auto-calculate output when inputs change
+    useEffect(() => {
+        handleProcess();
+    }, [inputText, key, isEncrypt]);
 
     return (
         <div className="flex flex-col md:flex-row h-screen bg-[#0f172a] text-slate-200 overflow-hidden">
@@ -42,19 +48,13 @@ const VigenerePage: React.FC = () => {
                                     </h3>
                                     <div className="flex bg-slate-800 p-1 rounded-xl">
                                         <button
-                                            onClick={() => {
-                                                setIsEncrypt(true);
-                                                handleProcess();
-                                            }}
+                                            onClick={() => setIsEncrypt(true)}
                                             className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all ${isEncrypt ? "bg-blue-600 text-white" : "text-slate-400 hover:text-slate-200"}`}
                                         >
                                             ENCRYPT
                                         </button>
                                         <button
-                                            onClick={() => {
-                                                setIsEncrypt(false);
-                                                handleProcess();
-                                            }}
+                                            onClick={() => setIsEncrypt(false)}
                                             className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all ${!isEncrypt ? "bg-indigo-600 text-white" : "text-slate-400 hover:text-slate-200"}`}
                                         >
                                             DECRYPT
@@ -116,12 +116,13 @@ const VigenerePage: React.FC = () => {
                                     </svg>
                                     Interactive Visualization
                                 </h3>
-                                <div className="flex items-center justify-center bg-slate-950/30 rounded-2xl border border-slate-800/50 p-4 min-h-[300px]">
-                                    <div className="w-full flex flex-col items-center">
-                                        <div className="mt-4 px-4 py-2 bg-blue-500/10 border border-blue-500/20 rounded-full text-[10px] text-blue-300 font-bold uppercase tracking-widest">
-                                            Vigenere Cipher Visualization
-                                        </div>
-                                    </div>
+                                <div className="overflow-y-auto max-h-[600px]">
+                                    <VigenereVisualizer 
+                                        plaintext={inputText}
+                                        keyValue={key}
+                                        isEncrypt={isEncrypt}
+                                        output={outputText}
+                                    />
                                 </div>
                             </div>
                         </div>

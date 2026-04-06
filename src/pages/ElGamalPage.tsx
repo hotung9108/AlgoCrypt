@@ -6,6 +6,7 @@ import {
   isPrime,
   isPrimitiveRoot,
 } from "@/algorithms/elgamalEncrypt";
+import FormulaDisplay from "@/components/FormulaDisplay";
 
 const ElGamalPage: React.FC = () => {
   // Key generation parameters
@@ -145,391 +146,209 @@ const ElGamalPage: React.FC = () => {
   return (
     <div className="flex flex-col md:flex-row h-screen bg-[#0f172a] text-slate-200 overflow-hidden">
       <main className="flex-1 overflow-y-auto p-4 md:p-8 lg:p-12">
-        <div className="max-w-6xl mx-auto space-y-8">
+        <div className="max-w-5xl mx-auto space-y-8">
           <header className="space-y-4">
             <div className="flex items-center gap-3">
-              <span className="px-3 py-1 rounded-full bg-green-500/10 text-green-400 text-xs font-bold uppercase tracking-tighter">
+              <span className="px-3 py-1 rounded-full bg-blue-500/10 text-blue-400 text-xs font-bold uppercase tracking-tighter">
                 Asymmetric Encryption
               </span>
             </div>
-            <h2 className="text-4xl md:text-5xl font-black text-white tracking-tight">
-              ElGamal Encryption
-            </h2>
-            <p className="text-lg text-slate-400 max-w-3xl leading-relaxed">
+            <h2 className="text-4xl md:text-5xl font-black text-white tracking-tight">ElGamal Encryption</h2>
+            <p className="text-lg text-slate-400 max-w-2xl leading-relaxed">
               ElGamal is a public-key cryptosystem based on the discrete logarithm problem. It provides both encryption and digital signatures, using a random number k for each encryption to ensure semantic security.
             </p>
           </header>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Left Section - Parameters */}
-            <div className="lg:col-span-1 space-y-6">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <div className="lg:col-span-7 space-y-6">
               <div className="bg-slate-900/50 border border-slate-800 rounded-3xl p-6 shadow-xl backdrop-blur-sm">
-                <h3 className="font-bold text-lg text-slate-100 mb-6 flex items-center gap-2">
-                  <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-                  Setup Parameters
+                <h3 className="font-bold text-lg text-slate-100 flex items-center gap-2 mb-6">
+                  <div className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></div>
+                  Input Controller
                 </h3>
 
-                <div className="space-y-5">
-                  <div>
-                    <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
-                      Prime Number (q)
-                    </label>
-                    <input
-                      type="number"
-                      value={q}
-                      onChange={(e) => setQ(Math.max(2, parseInt(e.target.value) || 0))}
-                      className="w-full bg-slate-950 border border-slate-800 rounded-2xl p-3 text-slate-200 focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all"
-                      placeholder="e.g., 23"
-                    />
-                    {qError && (
-                      <div className="mt-2 text-xs text-amber-400 flex items-center gap-1">
-                        <svg
-                          className="w-4 h-4"
-                          fill="currentColor"
-                          viewBox="0 0 20 20"
-                        >
-                          <path
-                            fillRule="evenodd"
-                            d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
-                            clipRule="evenodd"
-                          />
-                        </svg>
-                        {qError}
-                      </div>
-                    )}
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
-                      Primitive Root (a)
-                    </label>
-                    <input
-                      type="number"
-                      value={a}
-                      onChange={(e) => setA(Math.max(0, parseInt(e.target.value) || 0))}
-                      className="w-full bg-slate-950 border border-slate-800 rounded-2xl p-3 text-slate-200 focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all"
-                      placeholder="e.g., 5"
-                    />
-                    {aError && (
-                      <div className="mt-2 text-xs text-amber-400 flex items-center gap-1">
-                        <svg
-                          className="w-4 h-4"
-                          fill="currentColor"
-                          viewBox="0 0 20 20"
-                        >
-                          <path
-                            fillRule="evenodd"
-                            d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
-                            clipRule="evenodd"
-                          />
-                        </svg>
-                        {aError}
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="border-t border-slate-700 pt-5 mt-5">
-                    <h4 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-4">
-                      Alice's Keys
-                    </h4>
+                <div className="space-y-4">
+                  <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
-                        Private Key (xA)
-                      </label>
+                      <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Prime Number (q)</label>
                       <input
                         type="number"
-                        value={xA}
-                        onChange={(e) => setXA(Math.max(0, parseInt(e.target.value) || 0))}
-                        className="w-full bg-slate-950 border border-slate-800 rounded-2xl p-3 text-slate-200 focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all"
-                        placeholder="e.g., 6"
+                        value={q}
+                        onChange={(e) => setQ(Math.max(2, parseInt(e.target.value) || 0))}
+                        className="w-full bg-slate-950 border border-slate-800 rounded-2xl p-4 text-slate-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                        placeholder="e.g., 23"
                       />
-                      {xAError && (
-                        <div className="mt-2 text-xs text-red-400 flex items-center gap-1">
-                          {xAError}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-
-                  <div className="border-t border-slate-700 pt-5 mt-5">
-                    <h4 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-4">
-                      Message & Random
-                    </h4>
-                    <div className="mb-4">
-                      <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
-                        Message (M)
-                      </label>
-                      <input
-                        type="number"
-                        value={message}
-                        onChange={(e) => setMessage(Math.max(0, parseInt(e.target.value) || 0))}
-                        className="w-full bg-slate-950 border border-slate-800 rounded-2xl p-3 text-slate-200 focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all"
-                        placeholder="e.g., 10"
-                      />
-                      {messageError && (
-                        <div className="mt-2 text-xs text-red-400">
-                          {messageError}
+                      {qError && (
+                        <div className="mt-2 text-xs text-blue-400 flex items-center gap-1">
+                          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                          </svg>
+                          {qError}
                         </div>
                       )}
                     </div>
 
                     <div>
-                      <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
-                        Random Number (k)
-                      </label>
+                      <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Primitive Root (a)</label>
                       <input
                         type="number"
-                        value={k}
-                        onChange={(e) => setK(Math.max(0, parseInt(e.target.value) || 0))}
-                        className="w-full bg-slate-950 border border-slate-800 rounded-2xl p-3 text-slate-200 focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all"
-                        placeholder="e.g., 3"
+                        value={a}
+                        onChange={(e) => setA(Math.max(0, parseInt(e.target.value) || 0))}
+                        className="w-full bg-slate-950 border border-slate-800 rounded-2xl p-4 text-slate-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                        placeholder="e.g., 5"
                       />
-                      {kError && (
-                        <div className="mt-2 text-xs text-red-400">
-                          {kError}
+                      {aError && (
+                        <div className="mt-2 text-xs text-blue-400 flex items-center gap-1">
+                          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                          </svg>
+                          {aError}
                         </div>
                       )}
                     </div>
                   </div>
+
+                  <div className="border-t border-slate-700 pt-4 mt-4">
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Private Key (xA)</label>
+                        <input
+                          type="number"
+                          value={xA}
+                          onChange={(e) => setXA(Math.max(0, parseInt(e.target.value) || 0))}
+                          className="w-full bg-slate-950 border border-slate-800 rounded-2xl p-4 text-slate-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                          placeholder="e.g., 6"
+                        />
+                        {xAError && (
+                          <div className="mt-2 text-xs text-red-400 flex items-center gap-1">
+                            {xAError}
+                          </div>
+                        )}
+                      </div>
+
+                      <div>
+                        <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Random Number (k)</label>
+                        <input
+                          type="number"
+                          value={k}
+                          onChange={(e) => setK(Math.max(0, parseInt(e.target.value) || 0))}
+                          className="w-full bg-slate-950 border border-slate-800 rounded-2xl p-4 text-slate-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                          placeholder="e.g., 3"
+                        />
+                        {kError && (
+                          <div className="mt-2 text-xs text-red-400">
+                            {kError}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Message (M)</label>
+                    <input
+                      type="number"
+                      value={message}
+                      onChange={(e) => setMessage(Math.max(0, parseInt(e.target.value) || 0))}
+                      className="w-full bg-slate-950 border border-slate-800 rounded-2xl p-4 text-slate-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                      placeholder="e.g., 10"
+                    />
+                    {messageError && (
+                      <div className="mt-2 text-xs text-red-400">
+                        {messageError}
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
 
-            {/* Middle Section - Key Generation and Encryption */}
-            <div className="lg:col-span-1 space-y-6">
-              <div className="bg-slate-900/50 border border-slate-800 rounded-3xl p-6 shadow-xl">
+              <div className="bg-slate-900/50 border border-slate-800 rounded-3xl p-6 shadow-xl overflow-hidden min-h-[400px]">
                 <h3 className="font-bold text-lg text-slate-100 mb-6 flex items-center gap-2">
-                  <svg
-                    className="w-5 h-5 text-green-400"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.997 5.999h-.001"
-                    />
+                  <svg className="w-5 h-5 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                   </svg>
-                  Public Key (PU)
+                  Algorithm Details
                 </h3>
-
-                <div className="space-y-4">
-                  <div className="bg-slate-950/50 rounded-2xl p-4 border border-slate-700/50">
-                    <div className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
-                      Public Key Components
-                    </div>
-                    <div className="space-y-3 text-sm font-mono">
-                      <div>
-                        <span className="text-slate-400">q = </span>
-                        <span className="text-green-400 font-bold">{q}</span>
+                <div className="flex items-center justify-center bg-slate-950/30 rounded-2xl border border-slate-800/50 p-6 min-h-[300px]">
+                  <div className="w-full space-y-4">
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="bg-slate-800/50 rounded-xl p-4 border border-slate-700">
+                        <div className="text-[10px] text-slate-400 uppercase font-bold tracking-wider mb-2">Public Key</div>
+                        <div className="text-2xl font-bold text-blue-300">{yA}</div>
                       </div>
-                      <div>
-                        <span className="text-slate-400">a = </span>
-                        <span className="text-green-400 font-bold">{a}</span>
-                      </div>
-                      <div>
-                        <span className="text-slate-400">YA = a^xA mod q = </span>
-                        <span className="text-green-400 font-bold">{a}^{xA} mod {q}</span>
+                      <div className="bg-slate-800/50 rounded-xl p-4 border border-slate-700">
+                        <div className="text-[10px] text-slate-400 uppercase font-bold tracking-wider mb-2">Ciphertext 1 (C1)</div>
+                        <div className="text-2xl font-bold text-blue-300">{C1}</div>
                       </div>
                     </div>
-                  </div>
-
-                  <div className="bg-gradient-to-br from-green-900/40 to-emerald-900/40 border border-green-500/20 rounded-2xl p-4">
-                    <div className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">
-                      Calculated Public Key
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="bg-slate-800/50 rounded-xl p-4 border border-slate-700">
+                        <div className="text-[10px] text-slate-400 uppercase font-bold tracking-wider mb-2">Ciphertext 2 (C2)</div>
+                        <div className="text-2xl font-bold text-indigo-300">{C2}</div>
+                      </div>
+                      <div className="bg-slate-800/50 rounded-xl p-4 border border-slate-700">
+                        <div className="text-[10px] text-slate-400 uppercase font-bold tracking-wider mb-2">Decryption Key</div>
+                        <div className="text-2xl font-bold text-indigo-300">{K_dec}</div>
+                      </div>
                     </div>
-                    <div className="text-2xl font-black text-green-400 text-center font-mono">
-                      {yA}
-                    </div>
-                    <div className="text-[10px] text-slate-500 mt-2 text-center">
-                      PU = {'{'}{q}, {a}, {yA}{'}'}
+                    <div className="bg-gradient-to-r from-blue-900/20 to-indigo-900/20 border border-blue-500/20 rounded-xl p-4 mt-4">
+                      <div className="text-[10px] text-blue-300 uppercase font-bold tracking-wider mb-2">Formulas</div>
+                      <div className="text-xs text-slate-300 space-y-1 font-mono">
+                        <div><FormulaDisplay formula="YA = a^xA mod q" /></div>
+                        <div><FormulaDisplay formula="C1 = a^k mod q" /></div>
+                        <div><FormulaDisplay formula="K_enc = YA^k mod q" /></div>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
+            </div>
 
-              <div className="bg-slate-900/50 border border-slate-800 rounded-3xl p-6 shadow-xl">
-                <h3 className="font-bold text-lg text-slate-100 mb-6 flex items-center gap-2">
-                  <svg
-                    className="w-5 h-5 text-blue-400"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
+            <div className="lg:col-span-5 space-y-6">
+              <div className="bg-gradient-to-br from-blue-900/40 to-indigo-900/40 border border-blue-500/20 rounded-3xl p-8 shadow-2xl h-full flex flex-col">
+                <div className="flex items-center justify-between mb-8">
+                  <h3 className="font-bold text-xl text-white flex items-center gap-3">
+                    <svg className="w-6 h-6 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                    </svg>
+                    Decryption Result
+                  </h3>
+                  <button 
+                    onClick={() => {
+                      navigator.clipboard.writeText(decrypted.toString());
+                    }}
+                    className="p-2.5 bg-white/10 hover:bg-white/20 rounded-xl transition-colors group"
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-                    />
-                  </svg>
-                  Encryption Steps
-                </h3>
+                    <svg className="w-5 h-5 text-blue-200 group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                    </svg>
+                  </button>
+                </div>
 
-                <div className="space-y-4">
-                  <div className="bg-slate-950/50 rounded-2xl p-4 border border-slate-700/50">
-                    <div className="text-xs text-slate-500 mb-3 font-semibold uppercase">Step 1: C1 = a^k mod q</div>
-                    <div className="text-sm font-mono text-slate-400">
-                      C1 = {a}^{k} mod {q}
-                    </div>
-                    <div className="text-2xl font-black text-blue-300 mt-2">
-                      C1 = {C1}
-                    </div>
+                <div className="flex-1 bg-slate-950/80 border border-white/5 rounded-2xl p-6 overflow-y-auto scrollbar-hide mb-6">
+                  <div className="text-4xl font-black tracking-widest text-center leading-relaxed bg-gradient-to-br from-blue-100 to-white bg-clip-text text-transparent mono">
+                    {decrypted || 'DECRYPTING...'}
                   </div>
-
-                  <div className="bg-slate-950/50 rounded-2xl p-4 border border-slate-700/50">
-                    <div className="text-xs text-slate-500 mb-3 font-semibold uppercase">Step 2: K_enc = YA^k mod q</div>
-                    <div className="text-sm font-mono text-slate-400">
-                      K_enc = {yA}^{k} mod {q}
+                  <div className="mt-8 pt-6 border-t border-white/10 space-y-3 text-xs text-slate-400 mono">
+                    <div className="text-center">
+                      <div className="text-slate-500 mb-1">Encryption (C1, C2):</div>
+                      <div className="text-blue-200">({C1}, {C2})</div>
                     </div>
-                    <div className="text-2xl font-black text-blue-300 mt-2">
-                      K_enc = {K_enc}
-                    </div>
-                  </div>
-
-                  <div className="bg-slate-950/50 rounded-2xl p-4 border border-slate-700/50">
-                    <div className="text-xs text-slate-500 mb-3 font-semibold uppercase">Step 3: C2 = (M * K_enc) mod q</div>
-                    <div className="text-sm font-mono text-slate-400">
-                      C2 = ({message} * {K_enc}) mod {q}
-                    </div>
-                    <div className="text-2xl font-black text-blue-300 mt-2">
-                      C2 = {C2}
+                    <div className="text-center">
+                      <div className="text-slate-500 mb-1">Decryption:</div>
+                      <div className="text-blue-200"><FormulaDisplay formula={`M = (C2 * K_dec^-1) mod q = ${decrypted}`} /></div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
 
-            {/* Right Section - Decryption */}
-            <div className="lg:col-span-1 space-y-6">
-              <div className="bg-gradient-to-br from-emerald-900/40 to-green-900/40 border border-emerald-500/20 rounded-3xl p-8 shadow-2xl">
-                <h3 className="font-bold text-xl text-white mb-6 flex items-center gap-3">
-                  <svg
-                    className="w-6 h-6 text-emerald-400"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M13 10V3L4 14h7v7l9-11h-7z"
-                    />
-                  </svg>
-                  Decryption Steps
-                </h3>
-
-                <div className="space-y-4">
-                  <div className="bg-slate-950/50 rounded-2xl p-4 border border-slate-700/50">
-                    <div className="text-xs text-slate-500 mb-3 font-semibold uppercase">Step 1: K_dec = C1^xA mod q</div>
-                    <div className="text-sm font-mono text-slate-400">
-                      K_dec = {C1}^{xA} mod {q}
-                    </div>
-                    <div className="text-2xl font-black text-emerald-300 mt-2">
-                      K_dec = {K_dec}
-                    </div>
-                    <div className="text-[11px] text-slate-500 mt-2">
-                      Note: K_dec should equal K_enc ({K_enc}) ✓
-                    </div>
+                <div className="mt-4 pt-4 border-t border-white/10 grid grid-cols-2 gap-4">
+                  <div className="bg-white/5 rounded-2xl p-4">
+                    <div className="text-[10px] text-blue-300 uppercase font-bold tracking-tighter mb-1">Public Key</div>
+                    <div className="text-sm font-bold text-white">{yA}</div>
                   </div>
-
-                  <div className="bg-slate-950/50 rounded-2xl p-4 border border-slate-700/50">
-                    <div className="text-xs text-slate-500 mb-3 font-semibold uppercase">Step 2: M = (C2 * K_dec^-1) mod q</div>
-                    <div className="text-sm font-mono text-slate-400">
-                      M = ({C2} * modInverse({K_dec}, {q})) mod {q}
-                    </div>
-                    <div className="text-4xl font-black bg-gradient-to-br from-emerald-100 to-green-100 bg-clip-text text-transparent font-mono mt-2">
-                      {decrypted}
-                    </div>
-                  </div>
-
-                  <div className="flex gap-2 mt-4">
-                    <div className="flex-1 bg-slate-950/50 rounded-2xl p-4 border border-slate-700/50">
-                      <div className="text-xs text-slate-500 mb-2 font-semibold">Original:</div>
-                      <div className="text-2xl font-bold text-blue-400">{message}</div>
-                    </div>
-                    <div className="flex-1 bg-slate-950/50 rounded-2xl p-4 border border-slate-700/50">
-                      <div className="text-xs text-slate-500 mb-2 font-semibold">Recovered:</div>
-                      <div className="text-2xl font-bold text-emerald-400">{decrypted}</div>
-                    </div>
-                  </div>
-
-                  <div className={`rounded-2xl p-4 ${decrypted === message ? 'bg-emerald-500/10 border border-emerald-500/30' : 'bg-red-500/10 border border-red-500/30'}`}>
-                    <div className={`font-bold text-center ${decrypted === message ? 'text-emerald-400' : 'text-red-400'}`}>
-                      {decrypted === message ? '✓ Decryption Successful!' : '✗ Decryption Failed!'}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Information Section */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
-            <div className="bg-slate-900/50 border border-slate-800 rounded-3xl p-6">
-              <h3 className="font-bold text-lg text-slate-100 mb-4">a) Key Generation (Tạo khóa)</h3>
-              <div className="space-y-3 text-sm text-slate-400 font-mono text-xs">
-                <div className="bg-slate-950/50 rounded-xl p-3">
-                  <span className="text-slate-300">Input: q, a, xA</span>
-                  <div className="ml-2 mt-1">YA = a^xA mod q</div>
-                </div>
-                <div className="bg-slate-950/50 rounded-xl p-3">
-                  <span className="text-slate-300">Output Public Key:</span>
-                  <div className="ml-2 mt-1">PU = {'{'}{q}, {a}, {yA}{'}'}</div>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-slate-900/50 border border-slate-800 rounded-3xl p-6">
-              <h3 className="font-bold text-lg text-slate-100 mb-4">b) Encryption (Mã hóa)</h3>
-              <div className="space-y-3 text-sm text-slate-400 font-mono text-xs">
-                <div className="bg-slate-950/50 rounded-xl p-3">
-                  <span className="text-slate-300">Input: M, k, YA, q</span>
-                </div>
-                <div className="bg-blue-500/10 rounded-xl p-3">
-                  <div>C1 = a^k mod q</div>
-                  <div>K_enc = YA^k mod q</div>
-                  <div>C2 = (M · K_enc) mod q</div>
-                </div>
-                <div className="bg-slate-950/50 rounded-xl p-3">
-                  <span className="text-slate-300">Output Ciphertext:</span>
-                  <div className="ml-2 mt-1">(C1, C2) = ({C1}, {C2})</div>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-slate-900/50 border border-slate-800 rounded-3xl p-6">
-              <h3 className="font-bold text-lg text-slate-100 mb-4">c) Decryption (Giải mã)</h3>
-              <div className="space-y-3 text-sm text-slate-400 font-mono text-xs">
-                <div className="bg-slate-950/50 rounded-xl p-3">
-                  <span className="text-slate-300">Input: C1, C2, xA, q</span>
-                </div>
-                <div className="bg-emerald-500/10 rounded-xl p-3">
-                  <div>K_dec = C1^xA mod q</div>
-                  <div>K_inv = modInverse(K_dec, q)</div>
-                  <div>M = (C2 · K_inv) mod q</div>
-                </div>
-                <div className="bg-slate-950/50 rounded-xl p-3">
-                  <span className="text-slate-300">Output Message:</span>
-                  <div className="ml-2 mt-1">M = {decrypted}</div>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-slate-900/50 border border-slate-800 rounded-3xl p-6">
-              <h3 className="font-bold text-lg text-slate-100 mb-4">Mathematical Property</h3>
-              <div className="space-y-3 text-sm text-slate-400">
-                <div className="bg-slate-950/50 rounded-xl p-3 font-mono text-xs">
-                  <span className="text-slate-300">Why decryption works:</span>
-                  <div className="ml-2 mt-2 space-y-1">
-                    <div>C1^xA = (a^k)^xA mod q</div>
-                    <div>        = a^(k·xA) mod q</div>
-                    <div>        = (a^xA)^k mod q</div>
-                    <div>        = YA^k mod q</div>
-                    <div>        = K_enc</div>
+                  <div className="bg-white/5 rounded-2xl p-4">
+                    <div className="text-[10px] text-blue-300 uppercase font-bold tracking-tighter mb-1">Shared Secret</div>
+                    <div className="text-sm font-bold text-white">{K_enc}</div>
                   </div>
                 </div>
               </div>
