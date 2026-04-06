@@ -52,6 +52,10 @@ const CIPHERS = [
   { id: CipherType.MONOALPHABETIC, name: 'Monoalphabetic Cipher', complexity: 'High' },
   { id: CipherType.DES, name: 'DES Cipher', complexity: 'High' },
   { id: CipherType.AES, name: 'AES-128 Cipher', complexity: 'High' },
+  { id: CipherType.DIFFIE_HELLMAN, name: 'Diffie-Hellman Key Exchange', complexity: 'High' },
+  { id: CipherType.RSA, name: 'RSA Algorithm', complexity: 'High' },
+  { id: CipherType.ELGAMAL, name: 'ElGamal Encryption', complexity: 'High' },
+  { id: CipherType.DSA, name: 'DSA - Digital Signature', complexity: 'High' },
 ];
 
 export { CIPHERS };

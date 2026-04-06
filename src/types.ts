@@ -7,7 +7,11 @@ export const CipherType = {
   PLAYFAIR: 'playfair',
   MONOALPHABETIC: 'monoalphabetic',
   DES: 'des',
-  AES: 'aes'
+  AES: 'aes',
+  DIFFIE_HELLMAN: 'diffie_hellman',
+  RSA: 'rsa',
+  ELGAMAL: 'elgamal',
+  DSA: 'dsa'
 } as const;
 
 export type CipherType = typeof CipherType[keyof typeof CipherType];

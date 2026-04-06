@@ -9,6 +9,10 @@ import MonoalphabeticPage from './pages/MonoalphabeticPage';
 import VigenereAutokeyPage from './pages/VigenereAutokeyPage';
 import DESPage from './pages/DESPage';
 import AESPage from './pages/AESPage';
+import DiffieHellmanPage from './pages/DiffieHellmanPage';
+import RSAPage from './pages/RSAPage';
+import ElGamalPage from './pages/ElGamalPage';
+import DSAPage from './pages/DSAPage';
 import { CipherType } from './types';
 
 const App: React.FC = () => {
@@ -45,6 +49,18 @@ const App: React.FC = () => {
       case '/aes':
         setActiveCipher(CipherType.AES);
         break;
+      case '/diffie-hellman':
+        setActiveCipher(CipherType.DIFFIE_HELLMAN);
+        break;
+      case '/rsa':
+        setActiveCipher(CipherType.RSA);
+        break;
+      case '/elgamal':
+        setActiveCipher(CipherType.ELGAMAL);
+        break;
+      case '/dsa':
+        setActiveCipher(CipherType.DSA);
+        break;
       default:
         setActiveCipher(CipherType.CAESAR);
     }
@@ -80,6 +96,18 @@ const App: React.FC = () => {
       case CipherType.AES:
         navigate('/aes');
         break;
+      case CipherType.DIFFIE_HELLMAN:
+        navigate('/diffie-hellman');
+        break;
+      case CipherType.RSA:
+        navigate('/rsa');
+        break;
+      case CipherType.ELGAMAL:
+        navigate('/elgamal');
+        break;
+      case CipherType.DSA:
+        navigate('/dsa');
+        break;
       default:
         navigate('/caesar');
     }
@@ -100,6 +128,10 @@ const App: React.FC = () => {
           <Route path="/monoalphabetic" element={<MonoalphabeticPage />} />
           <Route path="/des" element={<DESPage />} />
           <Route path="/aes" element={<AESPage />} />
+          <Route path="/diffie-hellman" element={<DiffieHellmanPage />} />
+          <Route path="/rsa" element={<RSAPage />} />
+          <Route path="/elgamal" element={<ElGamalPage />} />
+          <Route path="/dsa" element={<DSAPage />} />
         </Routes>
       </main>
     </div>
