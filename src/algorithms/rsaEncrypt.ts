@@ -149,7 +149,6 @@ export const verifyKey = (
   e: number,
   d: number
 ): boolean => {
-  const n = calculateN(p, q);
   const phi = calculatePhi(p, q);
 
   // Check if p and q are prime

@@ -56,7 +56,6 @@ const DiffieHellmanPage: React.FC = () => {
 
       // Both parties calculate the same shared secret
       const secret1 = calculateSharedSecret(newYB, xA, q);
-      const secret2 = calculateSharedSecret(newYA, xB, q);
 
       // They should be equal
       setSharedSecret(secret1);
