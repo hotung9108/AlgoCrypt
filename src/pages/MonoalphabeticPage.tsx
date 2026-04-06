@@ -22,7 +22,7 @@ const MonoalphabeticPage: React.FC = () => {
                 <div className="max-w-5xl mx-auto space-y-8">
                     <header className="space-y-4">
                         <div className="flex items-center gap-3">
-                            <span className="px-3 py-1 rounded-full bg-cyan-500/10 text-cyan-400 text-xs font-bold uppercase tracking-tighter">
+                            <span className="px-3 py-1 rounded-full bg-blue-500/10 text-blue-400 text-xs font-bold uppercase tracking-tighter">
                                 Algorithm Low
                             </span>
                         </div>
@@ -39,19 +39,19 @@ const MonoalphabeticPage: React.FC = () => {
                             <div className="bg-slate-900/50 border border-slate-800 rounded-3xl p-6 shadow-xl backdrop-blur-sm">
                                 <div className="flex items-center justify-between mb-6">
                                     <h3 className="font-bold text-lg text-slate-100 flex items-center gap-2">
-                                        <div className="w-2 h-2 rounded-full bg-cyan-500 animate-pulse"></div>
+                                        <div className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></div>
                                         Input Controller
                                     </h3>
                                     <div className="flex bg-slate-800 p-1 rounded-xl">
                                         <button
                                             onClick={() => setIsEncrypt(true)}
-                                            className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all ${isEncrypt ? "bg-cyan-600 text-white" : "text-slate-400 hover:text-slate-200"}`}
+                                            className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all ${isEncrypt ? "bg-blue-600 text-white" : "text-slate-400 hover:text-slate-200"}`}
                                         >
                                             ENCRYPT
                                         </button>
                                         <button
                                             onClick={() => setIsEncrypt(false)}
-                                            className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all ${!isEncrypt ? "bg-teal-600 text-white" : "text-slate-400 hover:text-slate-200"}`}
+                                            className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all ${!isEncrypt ? "bg-indigo-600 text-white" : "text-slate-400 hover:text-slate-200"}`}
                                         >
                                             DECRYPT
                                         </button>
@@ -70,7 +70,7 @@ const MonoalphabeticPage: React.FC = () => {
                                                     e.target.value.toUpperCase(),
                                                 )
                                             }
-                                            className="w-full h-32 bg-slate-950 border border-slate-800 rounded-2xl p-4 text-slate-200 focus:ring-2 focus:ring-cyan-500 focus:border-transparent outline-none transition-all mono resize-none"
+                                            className="w-full h-32 bg-slate-950 border border-slate-800 rounded-2xl p-4 text-slate-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all mono resize-none"
                                             placeholder="Enter text..."
                                         />
                                     </div>
@@ -78,7 +78,7 @@ const MonoalphabeticPage: React.FC = () => {
                                     <div className="col-span-2">
                                         <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2 flex justify-between">
                                             <span>Cipher Alphabet</span>
-                                            <span className="text-cyan-400 font-bold text-xs">
+                                            <span className="text-blue-400 font-bold text-xs">
                                                 {key.length}/26 chars
                                             </span>
                                         </label>
@@ -89,7 +89,7 @@ const MonoalphabeticPage: React.FC = () => {
                                                 setKey(e.target.value.toUpperCase())
                                             }
                                             maxLength={26}
-                                            className="w-full bg-slate-950 border border-slate-800 rounded-2xl p-4 text-slate-200 focus:ring-2 focus:ring-cyan-500 focus:border-transparent outline-none transition-all mono font-mono"
+                                            className="w-full bg-slate-950 border border-slate-800 rounded-2xl p-4 text-slate-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all mono font-mono"
                                             placeholder="Enter substitution alphabet..."
                                         />
                                         {key.length !== 26 && (
@@ -104,88 +104,15 @@ const MonoalphabeticPage: React.FC = () => {
                                 </div>
                             </div>
 
-                            <div className="bg-slate-900/50 border border-slate-800 rounded-3xl p-6 shadow-xl overflow-hidden min-h-[400px]">
-                                <h3 className="font-bold text-lg text-slate-100 mb-6 flex items-center gap-2">
-                                    <svg
-                                        className="w-5 h-5 text-cyan-400"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        stroke="currentColor"
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth={2}
-                                            d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
-                                        />
-                                    </svg>
-                                    Encryption System
-                                </h3>
-                                <div className="bg-slate-950/30 rounded-2xl border border-slate-800/50 p-6 space-y-4 overflow-auto max-h-[320px] scrollbar-hide">
-                                    <div>
-                                        <div className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
-                                            Standard Alphabet
-                                        </div>
-                                        <div className="flex flex-wrap gap-1">
-                                            {alphabet.split("").map((letter, index) => (
-                                                <div
-                                                    key={`plain-${index}`}
-                                                    className="w-7 h-7 flex items-center justify-center bg-slate-800 border border-slate-700 rounded text-[10px] font-bold text-slate-300"
-                                                >
-                                                    {letter}
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </div>
-
-                                    <div className="border-t border-slate-700 pt-4">
-                                        <div className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
-                                            Cipher Alphabet (Substitution)
-                                        </div>
-                                        <div className="flex flex-wrap gap-1">
-                                            {key.split("").map((letter, index) => (
-                                                <div
-                                                    key={`cipher-${index}`}
-                                                    className="w-7 h-7 flex items-center justify-center bg-cyan-600/40 border border-cyan-500/60 rounded text-[10px] font-bold text-cyan-200"
-                                                >
-                                                    {letter || "?"}
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </div>
-
-                                    <div className="border-t border-slate-700 pt-4">
-                                        <div className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
-                                            Mapping Example (A→B→C...)
-                                        </div>
-                                        <div className="grid grid-cols-13 gap-1">
-                                            {alphabet.split("").slice(0, 13).map((letter, index) => (
-                                                <div key={`map-${index}`} className="flex flex-col items-center">
-                                                    <div className="w-6 h-6 flex items-center justify-center bg-slate-700 border border-slate-600 rounded text-[9px] font-bold text-slate-200 mb-1">
-                                                        {letter}
-                                                    </div>
-                                                    <div className="text-[9px] font-bold text-cyan-400">
-                                                        →
-                                                    </div>
-                                                    <div className="w-6 h-6 flex items-center justify-center bg-cyan-500/30 border border-cyan-500/60 rounded text-[9px] font-bold text-cyan-200 mt-1">
-                                                        {key[index] || "?"}
-                                                    </div>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
                             
                         </div>
                                             
                         <div className="lg:col-span-5 space-y-6">
-                            <div className="bg-gradient-to-br from-cyan-900/40 to-teal-900/40 border border-cyan-500/20 rounded-3xl p-8 shadow-2xl h-full flex flex-col">
+                            <div className="bg-gradient-to-br from-blue-900/40 to-indigo-900/40 border border-blue-500/20 rounded-3xl p-8 shadow-2xl h-full flex flex-col">
                                 <div className="flex items-center justify-between mb-8">
                                     <h3 className="font-bold text-xl text-white flex items-center gap-3">
                                         <svg
-                                            className="w-6 h-6 text-cyan-400"
+                                            className="w-6 h-6 text-blue-400"
                                             fill="none"
                                             viewBox="0 0 24 24"
                                             stroke="currentColor"
@@ -211,7 +138,7 @@ const MonoalphabeticPage: React.FC = () => {
                                         title="Copy to clipboard"
                                     >
                                         <svg
-                                            className="w-5 h-5 text-cyan-200 group-hover:scale-110 transition-transform"
+                                            className="w-5 h-5 text-blue-200 group-hover:scale-110 transition-transform"
                                             fill="none"
                                             viewBox="0 0 24 24"
                                             stroke="currentColor"
@@ -227,14 +154,14 @@ const MonoalphabeticPage: React.FC = () => {
                                 </div>
 
                                 <div className="flex-1 bg-slate-950/80 border border-white/5 rounded-2xl p-6 overflow-y-auto scrollbar-hide">
-                                    <div className="text-2xl font-black tracking-widest break-all leading-relaxed bg-gradient-to-br from-cyan-100 to-teal-100 bg-clip-text text-transparent mono">
+                                    <div className="text-2xl font-black tracking-widest break-all leading-relaxed bg-gradient-to-br from-blue-100 to-white bg-clip-text text-transparent mono">
                                         {outputText || "NO OUTPUT"}
                                     </div>
                                 </div>
 
                                 <div className="mt-8 pt-8 border-t border-white/10 grid grid-cols-2 gap-4">
                                     <div className="bg-white/5 rounded-2xl p-4">
-                                        <div className="text-[10px] text-cyan-300 uppercase font-bold tracking-tighter mb-1">
+                                        <div className="text-[10px] text-blue-300 uppercase font-bold tracking-tighter mb-1">
                                             Length
                                         </div>
                                         <div className="text-xl font-bold text-white">
@@ -245,7 +172,7 @@ const MonoalphabeticPage: React.FC = () => {
                                         </div>
                                     </div>
                                     <div className="bg-white/5 rounded-2xl p-4">
-                                        <div className="text-[10px] text-cyan-300 uppercase font-bold tracking-tighter mb-1">
+                                        <div className="text-[10px] text-blue-300 uppercase font-bold tracking-tighter mb-1">
                                             Method
                                         </div>
                                         <div className="text-xl font-bold text-white truncate">
@@ -256,6 +183,47 @@ const MonoalphabeticPage: React.FC = () => {
                             </div>
                         </div>
                         
+                    </div>
+                    <div className="bg-slate-900/50 border border-slate-800 rounded-3xl p-6 shadow-xl overflow-hidden">
+                        <h3 className="font-bold text-lg text-slate-100 mb-6 flex items-center gap-2">
+                            <svg
+                                className="w-5 h-5 text-indigo-400"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2m0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+                                />
+                            </svg>
+                            Encryption System
+                        </h3>
+                        <div className="flex flex-col items-center space-y-4">
+                            <div className="flex space-x-1 overflow-x-auto">
+                                {alphabet.split("").map((letter, index) => (
+                                    <div
+                                        key={`plain-${index}`}
+                                        className="w-8 h-8 flex items-center justify-center bg-slate-800 border border-slate-700 rounded text-xs font-bold text-slate-300"
+                                    >
+                                        {letter}
+                                    </div>
+                                ))}
+                            </div>
+                            <div className="text-slate-500 text-xs font-semibold">Substitutes To</div>
+                            <div className="flex space-x-1 overflow-x-auto">
+                                {key.split("").map((letter, index) => (
+                                    <div
+                                        key={`cipher-${index}`}
+                                        className="w-8 h-8 flex items-center justify-center bg-blue-600 border border-blue-500 rounded text-xs font-bold text-white"
+                                    >
+                                        {letter || "?"}
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </main>
