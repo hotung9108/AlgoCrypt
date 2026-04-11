@@ -92,7 +92,7 @@ const VigenerePage: React.FC = () => {
                                             onChange={(e) =>
                                                 setKey(e.target.value.toUpperCase())
                                             }
-                                            className="w-full bg-slate-800 border border-slate-700 rounded-lg p-4 text-slate-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                                            className="w-full bg-slate-950 border border-slate-800 rounded-2xl p-4 text-slate-200 focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all mono"
                                             placeholder="Enter key..."
                                         />
                                     </div>
