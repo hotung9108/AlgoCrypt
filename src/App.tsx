@@ -14,6 +14,14 @@ import RSAPage from './pages/RSAPage';
 import ElGamalPage from './pages/ElGamalPage';
 import DSAPage from './pages/DSAPage';
 import { CipherType } from './types';
+import ModularExponentiationPage from './pages/ModularExponentiationPage';
+import ModularInversePage from './pages/ModularInversePage';
+import EulerTotientPage from "@/pages/EulerTotientPage";
+import CRTModularExponentiationPage from "@/pages/CRTModularExponentiationPage";
+import CRTSolveSystemPage from "@/pages/CRTSolveSystemPage";
+import PrimitiveRootPage from "@/pages/PrimitiveRootPage";
+import DiscreteLogarithmPage from "@/pages/DiscreteLogarithmPage";
+import ModularExpressionsPage from "@/pages/ModularExpressionsPage";
 
 const App: React.FC = () => {
   const location = useLocation();
@@ -60,6 +68,30 @@ const App: React.FC = () => {
         break;
       case '/dsa':
         setActiveCipher(CipherType.DSA);
+        break;
+      case '/modular-exponentiation':
+        setActiveCipher(CipherType.MODULAR_EXPONENTIATION);
+        break;
+      case '/modular-inverse':
+        setActiveCipher(CipherType.MODULAR_INVERSE);
+        break;
+      case '/euler-totient':
+        setActiveCipher(CipherType.EULER_TOTIENT);
+        break;
+      case '/crt-modular-exponentiation':
+        setActiveCipher(CipherType.CRT_MODULAR_EXPONENTIATION);
+        break;
+      case '/crt-solve-system':
+        setActiveCipher(CipherType.CRT_SOLVE_SYSTEM);
+        break;
+      case '/primitive-root':
+        setActiveCipher(CipherType.PRIMITIVE_ROOT);
+        break;
+      case '/discrete-logarithm':
+        setActiveCipher(CipherType.DISCRETE_LOGARITHM);
+        break;
+      case '/modular-expressions':
+        setActiveCipher(CipherType.MODULAR_EXPRESSIONS);
         break;
       default:
         setActiveCipher(CipherType.CAESAR);
@@ -108,6 +140,30 @@ const App: React.FC = () => {
       case CipherType.DSA:
         navigate('/dsa');
         break;
+      case CipherType.MODULAR_EXPONENTIATION:
+        navigate('/modular-exponentiation');
+        break;
+      case CipherType.MODULAR_INVERSE:
+        navigate('/modular-inverse');
+        break;
+      case CipherType.EULER_TOTIENT:
+        navigate('/euler-totient');
+        break;
+      case CipherType.CRT_MODULAR_EXPONENTIATION:
+        navigate('/crt-modular-exponentiation');
+        break;
+      case CipherType.CRT_SOLVE_SYSTEM:
+        navigate('/crt-solve-system');
+        break;
+      case CipherType.PRIMITIVE_ROOT:
+        navigate('/primitive-root');
+        break;
+      case CipherType.DISCRETE_LOGARITHM:
+        navigate('/discrete-logarithm');
+        break;
+      case CipherType.MODULAR_EXPRESSIONS:
+        navigate('/modular-expressions');
+        break;
       default:
         navigate('/caesar');
     }
@@ -132,6 +188,14 @@ const App: React.FC = () => {
           <Route path="/rsa" element={<RSAPage />} />
           <Route path="/elgamal" element={<ElGamalPage />} />
           <Route path="/dsa" element={<DSAPage />} />
+          <Route path="/modular-exponentiation" element={<ModularExponentiationPage />} />
+          <Route path="/modular-inverse" element={<ModularInversePage />} />
+          <Route path="/euler-totient" element={<EulerTotientPage />} />
+          <Route path="/crt-modular-exponentiation" element={<CRTModularExponentiationPage />} />
+          <Route path="/crt-solve-system" element={<CRTSolveSystemPage />} />
+          <Route path="/primitive-root" element={<PrimitiveRootPage />} />
+          <Route path="/discrete-logarithm" element={<DiscreteLogarithmPage />} />
+          <Route path="/modular-expressions" element={<ModularExpressionsPage />} />
         </Routes>
       </main>
     </div>

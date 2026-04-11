@@ -11,7 +11,15 @@ export const CipherType = {
   DIFFIE_HELLMAN: 'diffie_hellman',
   RSA: 'rsa',
   ELGAMAL: 'elgamal',
-  DSA: 'dsa'
+  DSA: 'dsa',
+  MODULAR_EXPONENTIATION: 'modular_exponentiation',
+  MODULAR_INVERSE: 'modular_inverse',
+  EULER_TOTIENT: 'euler_totient',
+  CRT_MODULAR_EXPONENTIATION: 'crt_modular_exponentiation',
+  CRT_SOLVE_SYSTEM: 'crt_solve_system',
+  PRIMITIVE_ROOT: 'primitive_root',
+  DISCRETE_LOGARITHM: 'discrete_logarithm',
+  MODULAR_EXPRESSIONS: 'modular_expressions'
 } as const;
 
 export type CipherType = typeof CipherType[keyof typeof CipherType];

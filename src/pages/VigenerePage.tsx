@@ -22,27 +22,27 @@ const VigenerePage: React.FC = () => {
 
     return (
         <div className="flex flex-col md:flex-row h-screen bg-[#0f172a] text-slate-200 overflow-hidden">
-            <main className="flex-1 overflow-y-auto p-4 md:p-8 lg:p-12">
-                <div className="max-w-5xl mx-auto space-y-8">
-                    <header className="space-y-4">
-                        <div className="flex items-center gap-3">
-                            <span className="px-3 py-1 rounded-full bg-blue-500/10 text-blue-400 text-xs font-bold uppercase tracking-tighter">
+            <main className="flex-1 overflow-y-auto p-3 md:p-4 lg:p-6">
+                <div className="max-w-5xl mx-auto space-y-4">
+                    <header className="space-y-2">
+                        <div className="flex items-center gap-2">
+                            <span className="px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-400 text-xs font-bold uppercase tracking-tighter">
                                 Algorithm Medium
                             </span>
                         </div>
-                        <h2 className="text-4xl md:text-5xl font-black text-white tracking-tight">
+                        <h2 className="text-3xl md:text-4xl font-black text-white tracking-tight">
                             Vigenere Cipher
                         </h2>
-                        <p className="text-lg text-slate-400 max-w-2xl leading-relaxed">
-                            A method of encrypting alphabetic text by using a simple form of polyalphabetic substitution.
+                        <p className="text-sm text-slate-400 max-w-2xl leading-snug">
+                            Polyalphabetic substitution using a repeating keyword.
                         </p>
                     </header>
 
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                        <div className="lg:col-span-7 space-y-6">
-                            <div className="bg-slate-900/50 border border-slate-800 rounded-3xl p-6 shadow-xl backdrop-blur-sm">
-                                <div className="flex items-center justify-between mb-6">
-                                    <h3 className="font-bold text-lg text-slate-100 flex items-center gap-2">
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
+                        <div className="lg:col-span-7 space-y-4">
+                            <div className="bg-slate-900/50 border border-slate-800 rounded-2xl p-4 shadow-lg backdrop-blur-sm">
+                                <div className="flex items-center justify-between mb-3">
+                                    <h3 className="font-bold text-sm text-slate-100 flex items-center gap-2">
                                         <div className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></div>
                                         Input Controller
                                     </h3>
@@ -64,7 +64,7 @@ const VigenerePage: React.FC = () => {
 
                                 <div className="space-y-4">
                                     <div>
-                                        <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
+                                        <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">
                                             Plaintext / Ciphertext
                                         </label>
                                         <textarea
@@ -74,13 +74,13 @@ const VigenerePage: React.FC = () => {
                                                     e.target.value.toUpperCase(),
                                                 )
                                             }
-                                            className="w-full h-32 bg-slate-950 border border-slate-800 rounded-2xl p-4 text-slate-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all mono resize-none"
+                                            className="w-full h-28 bg-slate-950 border border-slate-800 rounded-lg p-3 text-sm text-slate-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all mono resize-none"
                                             placeholder="Enter text..."
                                         />
                                     </div>
 
                                     <div className="col-span-2">
-                                        <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2 flex justify-between">
+                                        <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1 flex justify-between">
                                             <span>Key</span>
                                             <span className="text-blue-400 font-bold">
                                                 {key}
@@ -92,15 +92,15 @@ const VigenerePage: React.FC = () => {
                                             onChange={(e) =>
                                                 setKey(e.target.value.toUpperCase())
                                             }
-                                            className="w-full bg-slate-950 border border-slate-800 rounded-2xl p-4 text-slate-200 focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all mono"
+                                            className="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-sm text-slate-200 focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all mono"
                                             placeholder="Enter key..."
                                         />
                                     </div>
                                 </div>
                             </div>
 
-                            <div className="bg-slate-900/50 border border-slate-800 rounded-3xl p-6 shadow-xl overflow-hidden min-h-[400px]">
-                                <h3 className="font-bold text-lg text-slate-100 mb-6 flex items-center gap-2">
+                            <div className="bg-slate-900/50 border border-slate-800 rounded-2xl p-4 shadow-lg overflow-hidden min-h-[300px]">
+                                <h3 className="font-bold text-sm text-slate-100 mb-3 flex items-center gap-2">
                                     <svg
                                         className="w-5 h-5 text-indigo-400"
                                         fill="none"
@@ -116,7 +116,7 @@ const VigenerePage: React.FC = () => {
                                     </svg>
                                     Interactive Visualization
                                 </h3>
-                                <div className="overflow-y-auto max-h-[600px]">
+                                <div className="overflow-y-auto max-h-[500px]">
                                     <VigenereVisualizer 
                                         plaintext={inputText}
                                         keyValue={key}
@@ -127,10 +127,10 @@ const VigenerePage: React.FC = () => {
                             </div>
                         </div>
 
-                        <div className="lg:col-span-5 space-y-6">
-                            <div className="bg-gradient-to-br from-blue-900/40 to-indigo-900/40 border border-blue-500/20 rounded-3xl p-8 shadow-2xl h-full flex flex-col">
-                                <div className="flex items-center justify-between mb-8">
-                                    <h3 className="font-bold text-xl text-white flex items-center gap-3">
+                        <div className="lg:col-span-5 space-y-4">
+                            <div className="bg-gradient-to-br from-blue-900/40 to-indigo-900/40 border border-blue-500/20 rounded-2xl p-4 shadow-lg h-full flex flex-col">
+                                <div className="flex items-center justify-between mb-3">
+                                    <h3 className="font-bold text-base text-white flex items-center gap-2">
                                         <svg
                                             className="w-6 h-6 text-blue-400"
                                             fill="none"
@@ -172,29 +172,29 @@ const VigenerePage: React.FC = () => {
                                     </button>
                                 </div>
 
-                                <div className="flex-1 bg-slate-950/80 border border-white/5 rounded-2xl p-6 overflow-y-auto scrollbar-hide">
-                                    <div className="text-2xl font-black tracking-widest break-all leading-relaxed bg-gradient-to-br from-blue-100 to-white bg-clip-text text-transparent mono">
+                                <div className="flex-1 bg-slate-950/80 border border-white/5 rounded-lg p-4 overflow-y-auto scrollbar-hide">
+                                    <div className="text-xl font-black tracking-widest break-all leading-relaxed bg-gradient-to-br from-blue-100 to-white bg-clip-text text-transparent mono">
                                         {outputText || "NO OUTPUT"}
                                     </div>
                                 </div>
 
-                                <div className="mt-8 pt-8 border-t border-white/10 grid grid-cols-2 gap-4">
-                                    <div className="bg-white/5 rounded-2xl p-4">
-                                        <div className="text-[10px] text-blue-300 uppercase font-bold tracking-tighter mb-1">
+                                <div className="mt-4 pt-4 border-t border-white/10 grid grid-cols-2 gap-2">
+                                    <div className="bg-white/5 rounded-lg p-3">
+                                        <div className="text-[9px] text-blue-300 uppercase font-bold tracking-tighter mb-0.5">
                                             Length
                                         </div>
-                                        <div className="text-xl font-bold text-white">
+                                        <div className="text-lg font-bold text-white">
                                             {outputText.length} {" "}
-                                            <span className="text-[10px] font-normal text-slate-400 ml-1">
+                                            <span className="text-[9px] font-normal text-slate-400 ml-1">
                                                 CHARS
                                             </span>
                                         </div>
                                     </div>
-                                    <div className="bg-white/5 rounded-2xl p-4">
-                                        <div className="text-[10px] text-blue-300 uppercase font-bold tracking-tighter mb-1">
+                                    <div className="bg-white/5 rounded-lg p-3">
+                                        <div className="text-[9px] text-blue-300 uppercase font-bold tracking-tighter mb-0.5">
                                             Method
                                         </div>
-                                        <div className="text-xl font-bold text-white truncate">
+                                        <div className="text-lg font-bold text-white truncate">
                                             Vigenere
                                         </div>
                                     </div>
