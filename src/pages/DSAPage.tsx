@@ -10,15 +10,16 @@ import {
 import FormulaDisplay from "@/components/FormulaDisplay";
 
 const DSAPage: React.FC = () => {
-  // DSA parameters
-  const [p, setP] = useState(7919);
-  const [q, setQ] = useState(59);
-  const [h, setH] = useState(10);
-  const [xA, setXA] = useState(19);
-  const [k, setK] = useState(23);
-  const [H_M, setH_M] = useState(210);
+  // DSA parameters (Test case 1: p=23, q=11, h=6, xA=8, k=9, H(M)=10)
+  const [p, setP] = useState(23);
+  const [q, setQ] = useState(11);
+  const [h, setH] = useState(6);
+  const [xA, setXA] = useState(8);
+  const [k, setK] = useState(9);
+  const [H_M, setH_M] = useState(10);
 
   // Computed values
+  const [g, setG] = useState(0);  // Computed generator: g = h^((p-1)/q) mod p
   const [yA, setYA] = useState(0);
   const [r, setR] = useState(0);
   const [s, setS] = useState(0);
@@ -33,7 +34,7 @@ const DSAPage: React.FC = () => {
   const [H_MError, setH_MError] = useState("");
 
   // Computation values for display
-  const [hk, setHk] = useState(0);
+  const [gk, setGk] = useState(0);  // Computed: g^k mod p
 
   // Recalculate whenever inputs change
   useEffect(() => {
@@ -47,6 +48,7 @@ const DSAPage: React.FC = () => {
     // Validate p
     if (p <= 1) {
       setPError("p must be a large prime > 1");
+      setG(0);
       setYA(0);
       setR(0);
       setS(0);
@@ -61,6 +63,7 @@ const DSAPage: React.FC = () => {
     // Validate q
     if (q <= 1) {
       setQError("q must be a prime > 1");
+      setG(0);
       setYA(0);
       setR(0);
       setS(0);
@@ -77,9 +80,10 @@ const DSAPage: React.FC = () => {
       setQError(`q must divide (p-1). Currently: (${p}-1) mod ${q} = ${(p - 1) % q}`);
     }
 
-    // Validate h
+    // Validate h (generator candidate)
     if (h < 2 || h >= p) {
       setHError(`h must be between 2 and ${p - 1}`);
+      setG(0);
       setYA(0);
       setR(0);
       setS(0);
@@ -87,10 +91,15 @@ const DSAPage: React.FC = () => {
       return;
     }
 
-    // Validate h^q ≡ 1 (mod p)
-    const hq_mod_p = modPow(h, q, p);
-    if (hq_mod_p !== 1) {
-      setHError(`⚠ h^q mod p should be 1, but got ${hq_mod_p}`);
+    // Calculate g = h^((p-1)/q) mod p
+    const exponent = (p - 1) / q;
+    const newG = modPow(h, exponent, p);
+    setG(newG);
+
+    // Verify g is a valid generator: g^q ≡ 1 (mod p)
+    const gq_mod_p = modPow(newG, q, p);
+    if (gq_mod_p !== 1) {
+      setHError(`⚠ Calculated g: g^q mod p = ${gq_mod_p} (expected 1)`);
     }
 
     // Validate xA
@@ -122,21 +131,21 @@ const DSAPage: React.FC = () => {
     }
 
     try {
-      // a) Generate public key: yA = h^xA mod p
-      const newYA = calculatePublicKey(h, xA, p);
+      // a) Generate public key: yA = g^xA mod p
+      const newYA = calculatePublicKey(newG, xA, p);
       setYA(newYA);
 
-      // b) Generate signature
-      const [newR, newS] = generateSignature(H_M, p, q, h, xA, k);
+      // b) Generate signature using g
+      const [newR, newS] = generateSignature(H_M, p, q, newG, xA, k);
       setR(newR);
       setS(newS);
 
       // Intermediate values for signature generation
-      const newHk = modPow(h, k, p);
-      setHk(newHk);
+      const newGk = modPow(newG, k, p);
+      setGk(newGk);
 
-      // c) Verify signature
-      const isValid = verifySignature(H_M, newR, newS, p, q, h, newYA);
+      // c) Verify signature using g
+      const isValid = verifySignature(H_M, newR, newS, p, q, newG, newYA);
       setVerificationResult(isValid);
     } catch (err) {
       setYA(0);
@@ -150,7 +159,7 @@ const DSAPage: React.FC = () => {
     <div className="flex flex-col md:flex-row h-screen bg-[#0f172a] text-slate-200 overflow-hidden">
       <main className="flex-1 overflow-y-auto p-4 md:p-8 lg:p-12">
         <div className="max-w-5xl mx-auto space-y-8">
-          <header className="space-y-4">
+          <header className="space-y-4">  
             <div className="flex items-center gap-3">
               <span className="px-3 py-1 rounded-full bg-blue-500/10 text-blue-400 text-xs font-bold uppercase tracking-tighter">
                 Digital Signature
@@ -206,19 +215,20 @@ const DSAPage: React.FC = () => {
                   </div>
 
                   <div>
-                    <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Generator (h)</label>
+                    <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Generator Candidate (h)</label>
                     <input
                       type="number"
                       value={h}
                       onChange={(e) => setH(Math.max(2, parseInt(e.target.value) || 2))}
                       className="w-full bg-slate-950 border border-slate-800 rounded-2xl p-4 text-slate-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
-                      placeholder="e.g., 10"
+                      placeholder="e.g., 6"
                     />
                     {hError && (
                       <div className="mt-2 text-xs text-blue-400 flex items-center gap-1">
                         {hError}
                       </div>
                     )}
+                    
                   </div>
 
                   <div className="border-t border-slate-700 pt-4 mt-4">
@@ -309,8 +319,9 @@ const DSAPage: React.FC = () => {
                     <div className="bg-gradient-to-r from-blue-900/20 to-indigo-900/20 border border-blue-500/20 rounded-xl p-4 mt-4">
                       <div className="text-[10px] text-blue-300 uppercase font-bold tracking-wider mb-2">Intermediate Values</div>
                       <div className="text-xs text-slate-300 space-y-1 font-mono">
-                        <div><FormulaDisplay formula={`h^k mod p = ${hk}`} /></div>
-                        <div><FormulaDisplay formula={`r = ${hk} mod ${q} = ${r}`} /></div>
+                        <div><FormulaDisplay formula={`h (input) = ${h}, g (calculated) = h^((p-1)/q) mod p = ${g}`} /></div>
+                        <div><FormulaDisplay formula={`g^k mod p = ${g}^${k} mod ${p} = ${gk}`} /></div>
+                        <div><FormulaDisplay formula={`r = ${gk} mod ${q} = ${r}`} /></div>
                         <div><FormulaDisplay formula={`v = ${verificationResult ? r : 'verification failed'}`} /></div>
                       </div>
                     </div>

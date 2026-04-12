@@ -3,28 +3,35 @@
  * 
  * DSA is a public-key cryptographic digital signature algorithm
  * 
- * Input Parameters:
- * - H(M): hash of message M
- * - p: large prime modulus
- * - q: prime order (divides p-1)
- * - h: generator (h < p and h^q mod p = 1)
- * - xA: private key (0 < xA < q)
- * - k: random nonce for signing (0 < k < q)
+ * Generator Computation:
+ * - h: generator candidate (input, can be any value 1 < h < p)
+ * - g: actual generator = h^((p-1)/q) mod p
+ * - The actual DSA algorithm uses g (not h)
+ * 
+ * CRITICAL PARAMETER REQUIREMENTS (must ALL be satisfied):
+ * 1. p and q must be PRIME numbers
+ * 2. q must divide (p-1): (p-1) mod q = 0
+ * 3. g must be a valid generator: g^q mod p = 1
+ * 4. xA: private key where 1 <= xA < q
+ * 5. k: random nonce where 1 <= k < q, gcd(k, q) = 1
+ * 6. H(M) >= 0 (message hash)
+ * 
+ * If parameters don't satisfy these conditions, DSA will FAIL!
  * 
  * Key Generation:
- * - Public Key: yA = h^xA mod p
+ * - Public Key: yA = g^xA mod p
  * 
  * Signature Generation:
- * - r = (h^k mod p) mod q
- * - s = (H(M) + xA * r) / k mod q
+ * - r = (g^k mod p) mod q
+ * - s = k^(-1) * (H(M) + xA * r) mod q
  * - Signature: (r, s)
  * 
  * Signature Verification:
  * - w = s^(-1) mod q
- * - u1 = H(M) * w mod q
- * - u2 = r * w mod q
- * - v = (h^u1 * yA^u2 mod p) mod q
- * - Valid if v == r
+ * - u1 = (H(M) * w) mod q
+ * - u2 = (r * w) mod q
+ * - v = ((g^u1 * yA^u2) mod p) mod q
+ * - Valid if and only if v == r
  */
 
 /**
