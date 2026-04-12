@@ -139,7 +139,7 @@ export function fermatTheoremExponentiation(
 
     // Tính a^m' mod n
     let result = 1;
-    let base_copy = base % modulus;
+    // let base_copy = base % modulus;
 
     if (reducedExponent === 0) {
         result = 1;
