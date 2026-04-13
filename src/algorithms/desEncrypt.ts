@@ -1,6 +1,41 @@
 // DES Encryption/Decryption Implementation
 // Based on the correct DES algorithm logic
 
+// Debug interface for step-by-step tracking
+export interface KeyGenStep {
+  round: number;
+  C_prev: string;
+  D_prev: string;
+  shift: number;
+  C: string;
+  D: string;
+  K: string;
+}
+
+export interface DESDebugSteps {
+  input: string;
+  key: string;
+  // Part 1: Key Generation
+  step1: { C0: string; D0: string };
+  keyGenSteps: KeyGenStep[];
+  // Part 2: Encryption
+  step4: { L0: string; R0: string };
+  steps: DESRoundStep[];
+  step11: string;
+}
+
+export interface DESRoundStep {
+  round: number;
+  L_prev: string;
+  R_prev: string;
+  ER0: string;
+  XORResult: string;
+  B: string;
+  F: string;
+  L: string;
+  R: string;
+}
+
 // Helper functions to work with bits
 function getbit(K1: number, i: number): number {
   const b = K1 >>> (32 - i);
@@ -97,6 +132,57 @@ function GenKey(K1: number, K2: number): [number[], number[]] {
   }
 
   return [key1, key2];
+}
+
+// Generate round keys with debug info
+function GenKeyDebug(K1: number, K2: number): {
+  keys: [number[], number[]];
+  keyGenSteps: KeyGenStep[];
+  C0: string;
+  D0: string;
+} {
+  const C0 = PC1CD(K1, K2, 0, 28);
+  const D0 = PC1CD(K1, K2, 28, 56);
+  const s = [1, 1, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 1];
+
+  const key1: number[] = new Array(16);
+  const key2: number[] = new Array(16);
+  const keyGenSteps: KeyGenStep[] = [];
+
+  let C = C0;
+  let D = D0;
+
+  for (let i = 0; i < 16; i++) {
+    const C_prev = C.toString(16).toUpperCase().padStart(7, '0');
+    const D_prev = D.toString(16).toUpperCase().padStart(7, '0');
+    
+    C = ShiftLeft(C, s[i]);
+    D = ShiftLeft(D, s[i]);
+    
+    key1[i] = KPC2(C, D, 0, 24);
+    key2[i] = KPC2(C, D, 24, 48);
+    
+    const K = numbersToHexString(key1[i], key2[i]);
+    const C_curr = C.toString(16).toUpperCase().padStart(7, '0');
+    const D_curr = D.toString(16).toUpperCase().padStart(7, '0');
+
+    keyGenSteps.push({
+      round: i + 1,
+      C_prev,
+      D_prev,
+      shift: s[i],
+      C: C_curr,
+      D: D_curr,
+      K,
+    });
+  }
+
+  return {
+    keys: [key1, key2],
+    keyGenSteps,
+    C0: C0.toString(16).toUpperCase().padStart(7, '0'),
+    D0: D0.toString(16).toUpperCase().padStart(7, '0'),
+  };
 }
 
 // Initial Permutation
@@ -256,6 +342,93 @@ function HoanviIP_1(M1: number, M2: number, chiso1: number, chiso2: number): num
   }
 
   return ipm1 >>> 0;
+}
+
+// DES Encryption with debug steps
+export function desEncryptDebug(plaintext: string, key: string): DESDebugSteps {
+  const [m1, m2] = hexStringToNumbers(plaintext);
+  const [k1, k2] = hexStringToNumbers(key);
+  
+  // Part 1: Key Generation with debug info
+  const keyGenDebug = GenKeyDebug(k1, k2);
+  const [key1, key2] = keyGenDebug.keys;
+
+  const step1 = {
+    C0: keyGenDebug.C0,
+    D0: keyGenDebug.D0,
+  };
+
+  // Step 4: Initial Permutation
+  let L0 = IPM(m1, m2, 0, 32);
+  let R0 = IPM(m1, m2, 32, 64);
+
+  const step4 = {
+    L0: L0.toString(16).toUpperCase().padStart(8, '0'),
+    R0: R0.toString(16).toUpperCase().padStart(8, '0'),
+  };
+
+  const steps: DESRoundStep[] = [];
+
+  let L = L0;
+  let R = R0;
+
+  // 16 rounds
+  for (let i = 0; i < 16; i++) {
+    const L_prev = L.toString(16).toUpperCase().padStart(8, '0');
+    const R_prev = R.toString(16).toUpperCase().padStart(8, '0');
+
+    // Step 5: Expansion E[R0]
+    const ER01 = ER0(R, 0, 24);
+    const ER02 = ER0(R, 24, 48);
+    const ER = numbersToHexString(ER01, ER02);
+
+    // Step 6: XOR with round key
+    const A1 = key1[i] ^ ER01;
+    const A2 = key2[i] ^ ER02;
+    const XORResult = numbersToHexString(A1, A2);
+
+    // Step 7: S-Box substitution
+    const B = SubByte(A1, A2);
+    const B_hex = B.toString(16).toUpperCase().padStart(8, '0');
+
+    // Step 8: P-Box permutation
+    const FP = HoanviP(B);
+    const F_hex = FP.toString(16).toUpperCase().padStart(8, '0');
+
+    // Step 9/10: Feistel round
+    const L_new = R;
+    const R_new = L ^ FP;
+
+    steps.push({
+      round: i + 1,
+      L_prev,
+      R_prev,
+      ER0: ER,
+      XORResult,
+      B: B_hex,
+      F: F_hex,
+      L: L_new.toString(16).toUpperCase().padStart(8, '0'),
+      R: R_new.toString(16).toUpperCase().padStart(8, '0'),
+    });
+
+    L = L_new;
+    R = R_new;
+  }
+
+  // Step 11: Final permutation
+  const C1 = HoanviIP_1(R, L, 0, 32);
+  const C2 = HoanviIP_1(R, L, 32, 64);
+  const ciphertext = numbersToHexString(C1, C2);
+
+  return {
+    input: plaintext,
+    key,
+    step1,
+    keyGenSteps: keyGenDebug.keyGenSteps,
+    step4,
+    steps,
+    step11: ciphertext,
+  };
 }
 
 // DES Encryption

@@ -129,3 +129,165 @@ const getPrimeFactors = (n: number): number[] => {
 
   return factors;
 };
+
+// ==================== DEBUG FUNCTIONS FOR STEP VISUALIZATION ====================
+
+export interface ModPowStep {
+  step: number;
+  description: string;
+  base: number;
+  exp: number;
+  modulus: number;
+  result: number;
+}
+
+export interface PublicKeyCalculation {
+  formula: string;
+  base: number;
+  exponent: number;
+  modulus: number;
+  steps: ModPowStep[];
+  publicKey: number;
+}
+
+export interface SharedSecretCalculation {
+  formula: string;
+  base: number;
+  exponent: number;
+  modulus: number;
+  steps: ModPowStep[];
+  sharedSecret: number;
+}
+
+export interface DiffieHellmanDebugSteps {
+  q: number;
+  a: number;
+  xA: number;
+  xB: number;
+  partyAPublicKey: PublicKeyCalculation;
+  partyBPublicKey: PublicKeyCalculation;
+  partyASharedSecret: SharedSecretCalculation;
+  partyBSharedSecret: SharedSecretCalculation;
+  sharedSecret: number;
+}
+
+// Track intermediate steps during modular exponentiation
+function modPowWithSteps(
+  base: number,
+  exp: number,
+  modulus: number
+): { result: number; steps: ModPowStep[] } {
+  if (modulus === 1) return { result: 0, steps: [] };
+
+  let result = 1;
+  base = base % modulus;
+  const steps: ModPowStep[] = [];
+  let stepNum = 1;
+
+  const initialBase = base;
+  const initialExp = exp;
+
+  steps.push({
+    step: stepNum++,
+    description: `Initialize: result = 1, base = ${initialBase}`,
+    base: initialBase,
+    exp: initialExp,
+    modulus,
+    result: 1
+  });
+
+  let currentExp = exp;
+  let currentBase = base;
+
+  while (currentExp > 0) {
+    if (currentExp % 2 === 1) {
+      result = (result * currentBase) % modulus;
+      steps.push({
+        step: stepNum++,
+        description: `Odd exponent: result = (${Math.floor((result * currentBase) / modulus) > 0 ? '...' : result} * ${currentBase}) mod ${modulus}`,
+        base: currentBase,
+        exp: currentExp,
+        modulus,
+        result
+      });
+    }
+
+    currentExp = Math.floor(currentExp / 2);
+    if (currentExp > 0) {
+      currentBase = (currentBase * currentBase) % modulus;
+      steps.push({
+        step: stepNum++,
+        description: `Square: base = (${currentBase}) mod ${modulus}`,
+        base: currentBase,
+        exp: currentExp,
+        modulus,
+        result
+      });
+    }
+  }
+
+  return { result, steps };
+}
+
+export function diffieHellmanDebug(
+  q: number,
+  a: number,
+  xA: number,
+  xB: number
+): DiffieHellmanDebugSteps {
+  // Calculate Party A's public key
+  const { result: yA, steps: stepsA } = modPowWithSteps(a, xA, q);
+  const partyAPublicKey: PublicKeyCalculation = {
+    formula: `yA = a^xA mod q = ${a}^${xA} mod ${q}`,
+    base: a,
+    exponent: xA,
+    modulus: q,
+    steps: stepsA,
+    publicKey: yA
+  };
+
+  // Calculate Party B's public key
+  const { result: yB, steps: stepsB } = modPowWithSteps(a, xB, q);
+  const partyBPublicKey: PublicKeyCalculation = {
+    formula: `yB = a^xB mod q = ${a}^${xB} mod ${q}`,
+    base: a,
+    exponent: xB,
+    modulus: q,
+    steps: stepsB,
+    publicKey: yB
+  };
+
+  // Calculate Party A's shared secret: K = yB^xA mod q
+  const { result: secretA, steps: stepsSecretA } = modPowWithSteps(yB, xA, q);
+  const partyASharedSecret: SharedSecretCalculation = {
+    formula: `K = yB^xA mod q = ${yB}^${xA} mod ${q}`,
+    base: yB,
+    exponent: xA,
+    modulus: q,
+    steps: stepsSecretA,
+    sharedSecret: secretA
+  };
+
+  // Calculate Party B's shared secret: K = yA^xB mod q
+  const { result: secretB, steps: stepsSecretB } = modPowWithSteps(yA, xB, q);
+  const partyBSharedSecret: SharedSecretCalculation = {
+    formula: `K = yA^xB mod q = ${yA}^${xB} mod ${q}`,
+    base: yA,
+    exponent: xB,
+    modulus: q,
+    steps: stepsSecretB,
+    sharedSecret: secretB
+  };
+
+  return {
+    q,
+    a,
+    xA,
+    xB,
+    partyAPublicKey,
+    partyBPublicKey,
+    partyASharedSecret,
+    partyBSharedSecret,
+    sharedSecret: secretA // Both should be equal
+  };
+}

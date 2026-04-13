@@ -171,226 +171,200 @@ const DSAPage: React.FC = () => {
             </p>
           </header>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-            <div className="lg:col-span-7 space-y-6">
-              <div className="bg-slate-900/50 border border-slate-800 rounded-3xl p-6 shadow-xl backdrop-blur-sm">
-                <h3 className="font-bold text-lg text-slate-100 flex items-center gap-2 mb-6">
-                  <div className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></div>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
+            <div className="lg:col-span-7 space-y-5">
+              <div className="bg-slate-900/50 border border-slate-800 rounded-xl p-5">
+                <h3 className="font-semibold text-base text-slate-100 flex items-center gap-2 mb-4">
+                  <div className="w-1.5 h-1.5 rounded-full bg-blue-400"></div>
                   Input Controller
                 </h3>
 
-                <div className="space-y-4">
-                  <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-3">
+                  <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Prime Modulus (p)</label>
+                      <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Prime (p)</label>
                       <input
                         type="number"
                         value={p}
                         onChange={(e) => setP(Math.max(2, parseInt(e.target.value) || 2))}
-                        className="w-full bg-slate-950 border border-slate-800 rounded-2xl p-4 text-slate-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
-                        placeholder="e.g., 7919"
+                        className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-200 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                        placeholder="23"
                       />
                       {pError && (
-                        <div className="mt-2 text-xs text-blue-400 flex items-center gap-1">
-                          {pError}
-                        </div>
+                        <div className="mt-1 text-xs text-blue-400">{pError}</div>
                       )}
                     </div>
 
                     <div>
-                      <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Prime Order (q)</label>
+                      <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Prime Order (q)</label>
                       <input
                         type="number"
                         value={q}
                         onChange={(e) => setQ(Math.max(2, parseInt(e.target.value) || 2))}
-                        className="w-full bg-slate-950 border border-slate-800 rounded-2xl p-4 text-slate-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
-                        placeholder="e.g., 59"
+                        className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-200 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                        placeholder="11"
                       />
                       {qError && (
-                        <div className="mt-2 text-xs text-blue-400 flex items-center gap-1">
-                          {qError}
-                        </div>
+                        <div className="mt-1 text-xs text-blue-400">{qError}</div>
                       )}
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Generator Candidate (h)</label>
+                    <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Generator (h)</label>
                     <input
                       type="number"
                       value={h}
                       onChange={(e) => setH(Math.max(2, parseInt(e.target.value) || 2))}
-                      className="w-full bg-slate-950 border border-slate-800 rounded-2xl p-4 text-slate-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
-                      placeholder="e.g., 6"
+                      className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-200 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                      placeholder="6"
                     />
                     {hError && (
-                      <div className="mt-2 text-xs text-blue-400 flex items-center gap-1">
-                        {hError}
-                      </div>
+                      <div className="mt-1 text-xs text-blue-400">{hError}</div>
                     )}
-                    
                   </div>
 
-                  <div className="border-t border-slate-700 pt-4 mt-4">
-                    <div className="grid grid-cols-2 gap-4">
+                  <div className="border-t border-slate-700 pt-2.5 mt-2.5">
+                    <div className="grid grid-cols-2 gap-3">
                       <div>
-                        <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Private Key (xA)</label>
+                        <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Private (xA)</label>
                         <input
                           type="number"
                           value={xA}
                           onChange={(e) => setXA(Math.max(0, parseInt(e.target.value) || 0))}
-                          className="w-full bg-slate-950 border border-slate-800 rounded-2xl p-4 text-slate-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
-                          placeholder="e.g., 19"
+                          className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-200 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                          placeholder="8"
                         />
                         {xAError && (
-                          <div className="mt-2 text-xs text-red-400">
-                            {xAError}
-                          </div>
+                          <div className="mt-1 text-xs text-red-400">{xAError}</div>
                         )}
                       </div>
 
                       <div>
-                        <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Random Nonce (k)</label>
+                        <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Nonce (k)</label>
                         <input
                           type="number"
                           value={k}
                           onChange={(e) => setK(Math.max(0, parseInt(e.target.value) || 0))}
-                          className="w-full bg-slate-950 border border-slate-800 rounded-2xl p-4 text-slate-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
-                          placeholder="e.g., 23"
+                          className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-200 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                          placeholder="9"
                         />
                         {kError && (
-                          <div className="mt-2 text-xs text-red-400">
-                            {kError}
-                          </div>
+                          <div className="mt-1 text-xs text-red-400">{kError}</div>
                         )}
                       </div>
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Hash H(M)</label>
+                    <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Hash H(M)</label>
                     <input
                       type="number"
                       value={H_M}
                       onChange={(e) => setH_M(Math.max(0, parseInt(e.target.value) || 0))}
-                      className="w-full bg-slate-950 border border-slate-800 rounded-2xl p-4 text-slate-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
-                      placeholder="e.g., 210"
+                      className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-200 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                      placeholder="10"
                     />
                     {H_MError && (
-                      <div className="mt-2 text-xs text-red-400">
-                        {H_MError}
-                      </div>
+                      <div className="mt-1 text-xs text-red-400">{H_MError}</div>
                     )}
                   </div>
                 </div>
               </div>
 
-              <div className="bg-slate-900/50 border border-slate-800 rounded-3xl p-6 shadow-xl overflow-hidden min-h-[400px]">
-                <h3 className="font-bold text-lg text-slate-100 mb-6 flex items-center gap-2">
-                  <svg className="w-5 h-5 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                  </svg>
+              <div className="bg-slate-900/50 border border-slate-800 rounded-xl p-5">
+                <h3 className="font-semibold text-base text-slate-100 flex items-center gap-2 mb-4">
+                  <div className="w-1.5 h-1.5 rounded-full bg-indigo-400"></div>
                   Algorithm Details
                 </h3>
-                <div className="flex items-center justify-center bg-slate-950/30 rounded-2xl border border-slate-800/50 p-6 min-h-[300px]">
-                  <div className="w-full space-y-4">
-                    <div className="grid grid-cols-2 gap-4">
-                      <div className="bg-slate-800/50 rounded-xl p-4 border border-slate-700">
-                        <div className="text-[10px] text-slate-400 uppercase font-bold tracking-wider mb-2">Public Key (yA)</div>
-                        <div className="text-2xl font-bold text-blue-300">{yA}</div>
-                      </div>
-                      <div className="bg-slate-800/50 rounded-xl p-4 border border-slate-700">
-                        <div className="text-[10px] text-slate-400 uppercase font-bold tracking-wider mb-2">Signature (r)</div>
-                        <div className="text-2xl font-bold text-blue-300">{r}</div>
+                <div className="space-y-3">
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="bg-slate-800/50 rounded-lg p-3 border border-slate-700">
+                      <div className="text-[10px] text-slate-400 uppercase font-bold tracking-wider mb-1">Public Key (yA)</div>
+                      <div className="text-lg font-bold text-blue-400">{yA}</div>
+                    </div>
+                    <div className="bg-slate-800/50 rounded-lg p-3 border border-slate-700">
+                      <div className="text-[10px] text-slate-400 uppercase font-bold tracking-wider mb-1">Signature (r)</div>
+                      <div className="text-lg font-bold text-blue-400">{r}</div>
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="bg-slate-800/50 rounded-lg p-3 border border-slate-700">
+                      <div className="text-[10px] text-slate-400 uppercase font-bold tracking-wider mb-1">Signature (s)</div>
+                      <div className="text-lg font-bold text-indigo-400">{s}</div>
+                    </div>
+                    <div className="bg-slate-800/50 rounded-lg p-3 border border-slate-700">
+                      <div className="text-[10px] text-slate-400 uppercase font-bold tracking-wider mb-1">Status</div>
+                      <div className="text-lg font-bold" style={{color: verificationResult ? '#86efac' : '#f87171'}}>
+                        {verificationResult ? '✓' : '✗'}
                       </div>
                     </div>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div className="bg-slate-800/50 rounded-xl p-4 border border-slate-700">
-                        <div className="text-[10px] text-slate-400 uppercase font-bold tracking-wider mb-2">Signature (s)</div>
-                        <div className="text-2xl font-bold text-indigo-300">{s}</div>
-                      </div>
-                      <div className="bg-slate-800/50 rounded-xl p-4 border border-slate-700">
-                        <div className="text-[10px] text-slate-400 uppercase font-bold tracking-wider mb-2">Verification</div>
-                        <div className="text-2xl font-bold" style={{color: verificationResult ? '#86efac' : '#f87171'}}>
-                          {verificationResult ? '✓' : '✗'}
-                        </div>
-                      </div>
-                    </div>
-                    <div className="bg-gradient-to-r from-blue-900/20 to-indigo-900/20 border border-blue-500/20 rounded-xl p-4 mt-4">
-                      <div className="text-[10px] text-blue-300 uppercase font-bold tracking-wider mb-2">Intermediate Values</div>
-                      <div className="text-xs text-slate-300 space-y-1 font-mono">
-                        <div><FormulaDisplay formula={`h (input) = ${h}, g (calculated) = h^((p-1)/q) mod p = ${g}`} /></div>
-                        <div><FormulaDisplay formula={`g^k mod p = ${g}^${k} mod ${p} = ${gk}`} /></div>
-                        <div><FormulaDisplay formula={`r = ${gk} mod ${q} = ${r}`} /></div>
-                        <div><FormulaDisplay formula={`v = ${verificationResult ? r : 'verification failed'}`} /></div>
-                      </div>
+                  </div>
+                  <div className="bg-blue-950/30 border border-blue-500/20 rounded-lg p-3">
+                    <div className="text-[10px] text-blue-300 uppercase font-bold tracking-wider mb-2">Intermediate</div>
+                    <div className="text-xs text-slate-300 space-y-1 font-mono">
+                      <div><FormulaDisplay formula={`g = h^((p-1)/q) mod p = ${g}`} /></div>
+                      <div><FormulaDisplay formula={`g^k mod p = ${gk}`} /></div>
+                      <div><FormulaDisplay formula={`r = (g^k mod p) mod q = ${r}`} /></div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="lg:col-span-5 space-y-6">
-              <div className="bg-gradient-to-br from-blue-900/40 to-indigo-900/40 border border-blue-500/20 rounded-3xl p-8 shadow-2xl h-full flex flex-col">
-                <div className="flex items-center justify-between mb-8">
-                  <h3 className="font-bold text-xl text-white flex items-center gap-3">
-                    <svg className="w-6 h-6 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                    </svg>
+            <div className="lg:col-span-5 space-y-5">
+              <div className="bg-slate-900/50 border border-slate-800 rounded-xl p-5 h-full flex flex-col">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="font-semibold text-base text-white flex items-center gap-2">
+                    <div className="w-1.5 h-1.5 rounded-full bg-indigo-400"></div>
                     Signature & Verification
                   </h3>
                   <button 
                     onClick={() => {
                       navigator.clipboard.writeText(`${r},${s}`);
                     }}
-                    className="p-2.5 bg-white/10 hover:bg-white/20 rounded-xl transition-colors group"
+                    className="p-1.5 bg-slate-800 hover:bg-slate-700 rounded-lg transition-colors"
                   >
-                    <svg className="w-5 h-5 text-blue-200 group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg className="w-4 h-4 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
                     </svg>
                   </button>
                 </div>
 
-                <div className="flex-1 bg-slate-950/80 border border-white/5 rounded-2xl p-6 overflow-y-auto scrollbar-hide mb-6">
-                  <div className="space-y-6">
+                <div className="flex-1 bg-slate-950/50 border border-slate-800 rounded-lg p-4 overflow-y-auto mb-4 space-y-3">
+                  <div>
+                    <div className="text-xs text-slate-400 mb-1.5">Signature (r, s):</div>
+                    <div className="text-sm font-bold text-blue-400 mono">{r}</div>
+                    <div className="text-sm font-bold text-blue-400 mono">{s}</div>
+                  </div>
+
+                  <div className="border-t border-slate-700 pt-3">
+                    <div className="text-xs text-slate-400 mb-2">Result:</div>
+                    <div className={`text-sm font-bold py-1.5 px-3 rounded-lg ${verificationResult ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'}`}>
+                      {verificationResult ? '✓ VERIFIED' : '✗ INVALID'}
+                    </div>
+                  </div>
+
+                  <div className="border-t border-slate-700 pt-3 space-y-2 text-xs">
                     <div>
-                      <div className="text-xs text-slate-400 mb-2">Signature (r, s):</div>
-                      <div className="text-2xl font-black tracking-widest bg-gradient-to-br from-blue-100 to-white bg-clip-text text-transparent mono">
-                        {r}
-                      </div>
-                      <div className="text-2xl font-black tracking-widest bg-gradient-to-br from-blue-100 to-white bg-clip-text text-transparent mono">
-                        {s}
-                      </div>
+                      <div className="text-slate-500 mb-0.5">Public Key (yA):</div>
+                      <div className="text-blue-300 font-mono">{yA}</div>
                     </div>
-
-                    <div className="border-t border-white/10 pt-6">
-                      <div className="text-xs text-slate-400 mb-3">Verification Result:</div>
-                      <div className={`text-lg font-bold py-2 px-4 rounded-lg ${verificationResult ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'}`}>
-                        {verificationResult ? '✓ SIGNATURE VERIFIED' : '✗ SIGNATURE INVALID'}
-                      </div>
-                    </div>
-
-                    <div className="border-t border-white/10 pt-6 space-y-3 text-xs">
-                      <div className="text-center">
-                        <div className="text-slate-500 mb-1">Public Key:</div>
-                        <div className="text-blue-200 mono">{yA}</div>
-                      </div>
-                      <div className="text-center">
-                        <div className="text-slate-500 mb-1">Message Hash:</div>
-                        <div className="text-blue-200 mono">{H_M}</div>
-                      </div>
+                    <div>
+                      <div className="text-slate-500 mb-0.5">Message Hash:</div>
+                      <div className="text-blue-300 font-mono">{H_M}</div>
                     </div>
                   </div>
                 </div>
 
-                <div className="mt-4 pt-4 border-t border-white/10 grid grid-cols-2 gap-4">
-                  <div className="bg-white/5 rounded-2xl p-4">
-                    <div className="text-[10px] text-blue-300 uppercase font-bold tracking-tighter mb-1">Signature Type</div>
-                    <div className="text-sm font-bold text-white">DSA</div>
+                <div className="grid grid-cols-2 gap-2.5">
+                  <div className="bg-slate-800/50 rounded-lg p-2.5">
+                    <div className="text-[10px] text-blue-300 uppercase font-bold tracking-tighter mb-0.5">Algorithm</div>
+                    <div className="text-xs font-bold text-white">DSA</div>
                   </div>
-                  <div className="bg-white/5 rounded-2xl p-4">
-                    <div className="text-[10px] text-blue-300 uppercase font-bold tracking-tighter mb-1">Status</div>
-                    <div className="text-sm font-bold" style={{color: verificationResult ? '#86efac' : '#f87171'}}>
+                  <div className="bg-slate-800/50 rounded-lg p-2.5">
+                    <div className="text-[10px] text-blue-300 uppercase font-bold tracking-tighter mb-0.5">Status</div>
+                    <div className="text-xs font-bold" style={{color: verificationResult ? '#86efac' : '#f87171'}}>
                       {verificationResult ? 'Valid' : 'Invalid'}
                     </div>
                   </div>

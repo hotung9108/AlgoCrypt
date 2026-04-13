@@ -363,3 +363,144 @@ export function aesDecryptHex(ciphertext: string, key: string): string {
   const m = aesDecrypt(c, k);
   return numbersToHexString(m);
 }
+
+// ==================== DEBUG FUNCTIONS FOR STEP VISUALIZATION ====================
+
+export interface KeyExpansionStep {
+  stepNum: number;
+  w3: string;
+  rotw: string;
+  subw: string;
+  rcon: number;
+  xcsw: string;
+  w0: string;
+  w1: string;
+  w2: string;
+  w3Final: string;
+  w4: string;
+  w5: string;
+  w6: string;
+  w7: string;
+}
+
+export interface EncryptionRound {
+  roundNum: number;
+  inputState: string;
+  afterSubByte: string;
+  afterShiftRows: string;
+  afterMixColumns: string;
+  roundKey: string;
+  outputState: string;
+}
+
+export interface AESDebugSteps {
+  key: string;
+  plaintext: string;
+  keyExpansion: KeyExpansionStep[];
+  encryptionRounds: EncryptionRound[];
+  ciphertext: string;
+}
+
+function numToHex(n: number): string {
+  return n.toString(16).toUpperCase().padStart(8, '0');
+}
+
+function stateToHex(state: number[]): string {
+  return state.map(w => numToHex(w)).join('');
+}
+
+export function aesEncryptDebug(plaintextHex: string, keyHex: string): AESDebugSteps {
+  const plaintext = hexStringToNumbers(plaintextHex);
+  const key = hexStringToNumbers(keyHex);
+  const w = KeyExpansion(key);
+  
+  // Key Expansion Debug
+  const keyExpSteps: KeyExpansionStep[] = [];
+  for (let i = 0; i < 10; i++) {
+    const baseIdx = i * 4;
+    const w3Val = w[baseIdx + 3];
+    const rotw = RotWord(w3Val);
+    const subw = SubWord(rotw);
+    const xcsw = XorRcon(subw, i + 1);
+    
+    keyExpSteps.push({
+      stepNum: i + 1,
+      w3: numToHex(w3Val),
+      rotw: numToHex(rotw),
+      subw: numToHex(subw),
+      rcon: RCON[i + 1],
+      xcsw: numToHex(xcsw),
+      w0: numToHex(w[baseIdx]),
+      w1: numToHex(w[baseIdx + 1]),
+      w2: numToHex(w[baseIdx + 2]),
+      w3Final: numToHex(w[baseIdx + 3]),
+      w4: numToHex(w[baseIdx + 4]),
+      w5: numToHex(w[baseIdx + 5]),
+      w6: numToHex(w[baseIdx + 6]),
+      w7: numToHex(w[baseIdx + 7])
+    });
+  }
+
+  // Encryption Debug
+  const encRounds: EncryptionRound[] = [];
+  let state = AddRoundKey(plaintext, w, 0);
+  
+  // Round 0 (initial state after AddRoundKey)
+  encRounds.push({
+    roundNum: 0,
+    inputState: stateToHex(plaintext),
+    afterSubByte: stateToHex(plaintext),
+    afterShiftRows: stateToHex(plaintext),
+    afterMixColumns: stateToHex(plaintext),
+    roundKey: stateToHex([w[0], w[1], w[2], w[3]]),
+    outputState: stateToHex(state)
+  });
+
+  // Rounds 1-9
+  for (let round = 1; round <= 9; round++) {
+    const inputState = state.slice();
+    state = SubBytes(state);
+    const afterSubByte = state.slice();
+    state = ShiftRows(state);
+    const afterShiftRows = state.slice();
+    state = MixColumns(state);
+    const afterMixColumns = state.slice();
+    state = AddRoundKey(state, w, round * 4);
+    
+    encRounds.push({
+      roundNum: round,
+      inputState: stateToHex(inputState),
+      afterSubByte: stateToHex(afterSubByte),
+      afterShiftRows: stateToHex(afterShiftRows),
+      afterMixColumns: stateToHex(afterMixColumns),
+      roundKey: stateToHex([w[round * 4], w[round * 4 + 1], w[round * 4 + 2], w[round * 4 + 3]]),
+      outputState: stateToHex(state)
+    });
+  }
+
+  // Round 10 (final)
+  const inputState10 = state.slice();
+  state = SubBytes(state);
+  const afterSubByte10 = state.slice();
+  state = ShiftRows(state);
+  const afterShiftRows10 = state.slice();
+  state = AddRoundKey(state, w, 40);
+  
+  encRounds.push({
+    roundNum: 10,
+    inputState: stateToHex(inputState10),
+    afterSubByte: stateToHex(afterSubByte10),
+    afterShiftRows: stateToHex(afterShiftRows10),
+    afterMixColumns: stateToHex(afterShiftRows10),
+    roundKey: stateToHex([w[40], w[41], w[42], w[43]]),
+    outputState: stateToHex(state)
+  });
+
+  return {
+    key: keyHex,
+    plaintext: plaintextHex,
+    keyExpansion: keyExpSteps,
+    encryptionRounds: encRounds,
+    ciphertext: stateToHex(state)
+  };
+}
